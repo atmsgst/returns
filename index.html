@@ -630,134 +630,7 @@ tbody tr{animation:faderow .18s ease both}
 .login-err.show{display:block}
 .login-footer{text-align:center;margin-top:18px;font-size:10px;color:#a0aec0}
 
-/* ═══════════════════════════════════════════════
-   ADMIN LOGIN OVERLAY
-═══════════════════════════════════════════════ */
-#admin-login-screen{
-  position:fixed;inset:0;z-index:10000;
-  background:linear-gradient(135deg,#050d1a 0%,#0f1d35 45%,#0a1628 100%);
-  display:flex;align-items:center;justify-content:center;
-  font-family:'Inter',sans-serif;
-}
-#admin-login-screen::before{
-  content:'';position:absolute;inset:0;
-  background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(37,99,235,.18) 0%,transparent 70%),
-             radial-gradient(ellipse 50% 40% at 80% 100%,rgba(16,185,129,.1) 0%,transparent 60%),
-             radial-gradient(ellipse 40% 30% at 10% 80%,rgba(244,114,182,.08) 0%,transparent 60%);
-  pointer-events:none;
-}
-#admin-login-screen::after{
-  content:'';position:absolute;inset:0;
-  background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none'%3E%3Cg fill='%23ffffff' fill-opacity='0.02'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-  pointer-events:none;
-}
-.admin-card{
-  position:relative;z-index:1;
-  background:rgba(255,255,255,.96);
-  backdrop-filter:blur(20px);
-  border-radius:22px;
-  width:100%;max-width:440px;
-  padding:44px 40px 40px;
-  box-shadow:0 40px 100px rgba(0,0,0,.6),0 10px 30px rgba(0,0,0,.3),0 0 0 1px rgba(255,255,255,.08);
-  animation:adminIn .4s cubic-bezier(.34,1.4,.64,1);
-}
-@keyframes adminIn{from{opacity:0;transform:translateY(28px) scale(.95)}to{opacity:1;transform:none}}
-.admin-logo-wrap{
-  display:flex;flex-direction:column;align-items:center;margin-bottom:28px;
-}
-.admin-logo-ring{
-  width:60px;height:60px;border-radius:18px;
-  background:linear-gradient(135deg,#1e3a5f 0%,#2563eb 100%);
-  display:flex;align-items:center;justify-content:center;
-  font-size:22px;font-weight:900;color:white;
-  box-shadow:0 8px 24px rgba(37,99,235,.45);
-  margin-bottom:14px;letter-spacing:-1px;
-  position:relative;
-}
-.admin-logo-ring::after{
-  content:'';position:absolute;inset:-3px;border-radius:20px;
-  background:linear-gradient(135deg,rgba(37,99,235,.4),rgba(96,165,250,.2));
-  z-index:-1;
-}
-.admin-title{font-size:22px;font-weight:900;color:#0f172a;letter-spacing:-.5px;margin-bottom:3px}
-.admin-sub{font-size:12px;color:#94a3b8;font-weight:500}
 
-/* Team status pills in admin card */
-.admin-teams-row{
-  display:flex;gap:6px;margin-bottom:22px;
-}
-.admin-team-pill{
-  flex:1;display:flex;align-items:center;justify-content:center;gap:5px;
-  padding:6px 4px;border-radius:9px;font-size:10px;font-weight:700;
-  border:1.5px solid;position:relative;overflow:hidden;
-}
-.atp-k{background:#eff6ff;border-color:#bfdbfe;color:#1e40af}
-.atp-a{background:#ecfdf5;border-color:#a7f3d0;color:#065f46}
-.atp-v{background:#fdf2f8;border-color:#fbcfe8;color:#9d174d}
-.atp-dot{width:6px;height:6px;border-radius:50%}
-.atp-dot-k{background:#3b82f6}
-.atp-dot-a{background:#10b981}
-.atp-dot-v{background:#ec4899}
-
-.admin-divider{
-  display:flex;align-items:center;gap:10px;margin-bottom:20px;
-}
-.admin-divider-line{flex:1;height:1px;background:#e2e8f0}
-.admin-divider-txt{font-size:10px;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:.8px;white-space:nowrap}
-
-.admin-fg{display:flex;flex-direction:column;gap:5px;margin-bottom:14px}
-.admin-lbl{font-size:10px;font-weight:700;color:#334155;text-transform:uppercase;letter-spacing:.5px}
-.admin-inp-wrap{position:relative}
-.admin-inp{
-  width:100%;background:#f8fafc;border:1.5px solid #e2e8f0;color:#0f172a;
-  padding:11px 14px 11px 40px;font-family:'Inter',sans-serif;font-size:13px;
-  outline:none;border-radius:9px;transition:all .2s;
-}
-.admin-inp:focus{border-color:#2563eb;background:white;box-shadow:0 0 0 3px rgba(37,99,235,.1)}
-.admin-inp-icon{
-  position:absolute;left:13px;top:50%;transform:translateY(-50%);
-  font-size:14px;opacity:.45;pointer-events:none;
-}
-.admin-btn{
-  width:100%;padding:13px;margin-top:6px;
-  background:linear-gradient(135deg,#1e3a5f,#2563eb);color:white;
-  border:none;border-radius:10px;font-family:'Inter',sans-serif;
-  font-size:13px;font-weight:800;cursor:pointer;letter-spacing:.2px;
-  box-shadow:0 5px 18px rgba(37,99,235,.4),0 2px 6px rgba(0,0,0,.15);
-  transition:all .2s;
-}
-.admin-btn:hover{background:linear-gradient(135deg,#152b4e,#1d4ed8);box-shadow:0 8px 24px rgba(37,99,235,.5);transform:translateY(-1px)}
-.admin-btn:active{transform:none}
-.admin-btn:disabled{opacity:.6;cursor:not-allowed;transform:none}
-.admin-err{
-  background:#fef2f2;border:1.5px solid #fecaca;color:#b91c1c;
-  padding:9px 13px;border-radius:8px;font-size:11px;font-weight:600;
-  margin-top:10px;display:none;text-align:center;line-height:1.5;
-}
-.admin-err.show{display:block}
-.admin-progress{
-  margin-top:14px;display:none;
-}
-.admin-progress.show{display:block}
-.admin-prog-lbl{font-size:11px;color:#64748b;font-weight:600;margin-bottom:7px;text-align:center}
-.admin-prog-teams{display:flex;flex-direction:column;gap:5px}
-.admin-prog-row{
-  display:flex;align-items:center;gap:9px;padding:7px 11px;
-  border-radius:8px;background:#f8fafc;border:1px solid #e2e8f0;font-size:11px;
-}
-.admin-prog-name{font-weight:700;color:#334155;flex:1}
-.admin-prog-st{font-size:10px;font-weight:600;padding:2px 8px;border-radius:10px}
-.apst-wait{background:#f1f5f9;color:#94a3b8}
-.apst-busy{background:#eff6ff;color:#2563eb}
-.apst-ok{background:#ecfdf5;color:#059669}
-.apst-err{background:#fef2f2;color:#dc2626}
-.admin-footer{text-align:center;margin-top:18px;font-size:10px;color:#94a3b8}
-.admin-switch-link{
-  font-size:11px;color:#2563eb;font-weight:600;cursor:pointer;
-  text-decoration:underline;text-underline-offset:2px;
-  background:none;border:none;font-family:inherit;
-}
-.admin-switch-link:hover{color:#1d4ed8}
 
 
 /* ═══════════════════════════════════════════════
@@ -891,119 +764,169 @@ tbody tr{animation:faderow .18s ease both}
 
 .ac-empty{text-align:center;padding:70px 20px;color:var(--ink4);}
 
+
+/* ═══════════════════════════════════════════
+   UNIFIED LOGIN — TAB STRIP & UPDATES
+═══════════════════════════════════════════ */
+#login-screen{
+  position:fixed;inset:0;z-index:9999;
+  background:linear-gradient(135deg,#0f1d35 0%,#1e3a5f 50%,#152b4e 100%);
+  display:flex;align-items:center;justify-content:center;font-family:'Inter',sans-serif;
+}
+.login-card{
+  position:relative;z-index:1;background:rgba(255,255,255,.97);
+  border-radius:20px;width:100%;max-width:420px;padding:36px 36px 30px;
+  box-shadow:0 30px 80px rgba(0,0,0,.45),0 8px 20px rgba(0,0,0,.2);
+  animation:loginIn .35s cubic-bezier(.34,1.5,.64,1);
+}
+@keyframes loginIn{from{opacity:0;transform:translateY(20px) scale(.96)}to{opacity:1;transform:none}}
+.login-logo{display:flex;flex-direction:column;align-items:center;margin-bottom:20px;}
+.login-logo-icon{
+  width:52px;height:52px;border-radius:14px;
+  background:linear-gradient(135deg,#1e3a5f,#2563eb);
+  display:flex;align-items:center;justify-content:center;
+  font-size:20px;font-weight:900;color:white;letter-spacing:-1px;
+  box-shadow:0 6px 18px rgba(37,99,235,.4);margin-bottom:11px;
+}
+.login-logo-title{font-size:18px;font-weight:900;color:#0f172a;letter-spacing:-.4px;}
+.login-logo-sub{font-size:11px;color:#94a3b8;margin-top:2px;font-weight:500;}
+
+/* Tab strip */
+.login-tabs{
+  display:flex;gap:4px;margin-bottom:20px;
+  background:#f1f5f9;border-radius:10px;padding:4px;
+}
+.login-tab{
+  flex:1;padding:7px 2px;border-radius:7px;
+  font-size:11px;font-weight:700;cursor:pointer;
+  border:none;font-family:inherit;transition:all .18s;
+  background:transparent;color:#64748b;
+  display:flex;align-items:center;justify-content:center;gap:4px;white-space:nowrap;
+}
+.login-tab:hover{background:rgba(255,255,255,.7);color:#334155;}
+.lt-active-admin{background:#1e3a5f!important;color:#fbbf24!important;box-shadow:0 2px 8px rgba(0,0,0,.18)!important;}
+.lt-active-k{background:#fff!important;color:#1e40af!important;box-shadow:0 2px 6px rgba(0,0,0,.08)!important;}
+.lt-active-a{background:#fff!important;color:#065f46!important;box-shadow:0 2px 6px rgba(0,0,0,.08)!important;}
+.lt-active-v{background:#fff!important;color:#9d174d!important;box-shadow:0 2px 6px rgba(0,0,0,.08)!important;}
+.login-tab-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
+.ltd-k{background:#3b82f6;}.ltd-a{background:#10b981;}.ltd-v{background:#ec4899;}
+
+/* Divider */
+.login-divider{display:flex;align-items:center;gap:8px;margin-bottom:16px;}
+.login-divider-line{flex:1;height:1px;background:#e2e8f0;}
+.login-divider-txt{font-size:10px;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:.8px;white-space:nowrap;}
+
+/* Fields */
+.login-fg{display:flex;flex-direction:column;gap:5px;margin-bottom:13px;}
+.login-lbl{font-size:10px;font-weight:700;color:#475569;text-transform:uppercase;letter-spacing:.5px;}
+.login-inp-wrap{position:relative;}
+.login-inp-icon{position:absolute;left:13px;top:50%;transform:translateY(-50%);font-size:13px;opacity:.4;pointer-events:none;}
+.login-inp{
+  width:100%;background:#f8fafc;border:1.5px solid #e2e8f0;color:#0f172a;
+  padding:10px 13px 10px 38px;font-family:'Inter',sans-serif;font-size:13px;
+  outline:none;border-radius:9px;transition:all .2s;box-sizing:border-box;
+}
+.login-inp:focus{border-color:#2563eb;background:white;box-shadow:0 0 0 3px rgba(37,99,235,.1);}
+
+/* Button */
+.login-btn{
+  width:100%;padding:12px;margin-top:6px;
+  background:linear-gradient(135deg,#1e3a5f,#2563eb);color:white;
+  border:none;border-radius:9px;font-family:'Inter',sans-serif;
+  font-size:13px;font-weight:800;cursor:pointer;
+  box-shadow:0 4px 14px rgba(37,99,235,.35);transition:all .2s;
+}
+.login-btn:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(37,99,235,.45);}
+.login-btn:active{transform:none;}
+.login-btn:disabled{opacity:.6;cursor:not-allowed;transform:none;}
+
+/* Error */
+.login-err{background:#fef2f2;border:1.5px solid #fecaca;color:#b91c1c;padding:9px 12px;border-radius:7px;font-size:11px;font-weight:600;margin-top:10px;display:none;text-align:center;}
+.login-err.show{display:block;}
+
+/* Progress */
+.login-progress{margin-top:14px;display:none;}
+.login-progress.show{display:block;}
+.login-prog-lbl{font-size:11px;color:#64748b;font-weight:600;margin-bottom:7px;text-align:center;}
+.login-prog-row{display:flex;align-items:center;gap:9px;padding:6px 10px;border-radius:7px;background:#f8fafc;border:1px solid #e2e8f0;font-size:11px;margin-bottom:4px;}
+.login-prog-name{font-weight:700;color:#334155;flex:1;}
+.login-prog-st{font-size:10px;font-weight:600;padding:2px 8px;border-radius:10px;}
+.lpst-wait{background:#f1f5f9;color:#94a3b8;}
+.lpst-busy{background:#eff6ff;color:#2563eb;}
+.lpst-ok{background:#ecfdf5;color:#059669;}
+.lpst-err{background:#fef2f2;color:#dc2626;}
+
+/* Footer */
+.login-footer{text-align:center;margin-top:16px;font-size:10px;color:#94a3b8;}
+
 </style>
 </head>
 <body>
 
-<!-- ════════════════════ ADMIN LOGIN SCREEN ════════════════════ -->
-<div id="admin-login-screen">
-  <div class="admin-card">
-    <div class="admin-logo-wrap">
-      <div class="admin-logo-ring">GST</div>
-      <div class="admin-title">GST Tracker</div>
-      <div class="admin-sub">Admin · All Teams Dashboard</div>
-    </div>
-
-    <!-- Three team pills -->
-    <div class="admin-teams-row">
-      <div class="admin-team-pill atp-k"><span class="atp-dot atp-dot-k"></span>Kalpesh</div>
-      <div class="admin-team-pill atp-a"><span class="atp-dot atp-dot-a"></span>Aparna</div>
-      <div class="admin-team-pill atp-v"><span class="atp-dot atp-dot-v"></span>Vibhavri</div>
-    </div>
-
-    <div class="admin-divider">
-      <div class="admin-divider-line"></div>
-      <div class="admin-divider-txt">Admin Sign In</div>
-      <div class="admin-divider-line"></div>
-    </div>
-
-    <div class="admin-fg">
-      <label class="admin-lbl" for="admin-mobile">Mobile Number</label>
-      <div class="admin-inp-wrap">
-        <span class="admin-inp-icon">📱</span>
-        <input class="admin-inp" id="admin-mobile" type="tel" placeholder="Enter admin mobile number" maxlength="15" autocomplete="username">
-      </div>
-    </div>
-    <div class="admin-fg">
-      <label class="admin-lbl" for="admin-pass">Password</label>
-      <div class="admin-inp-wrap">
-        <span class="admin-inp-icon">🔒</span>
-        <input class="admin-inp" id="admin-pass" type="password" placeholder="Enter password" autocomplete="current-password" onkeydown="if(event.key==='Enter')doAdminLogin()">
-      </div>
-    </div>
-    <button class="admin-btn" id="admin-login-btn" onclick="doAdminLogin()">Sign In to All Teams →</button>
-    <div class="admin-err" id="admin-err"></div>
-
-    <!-- Per-team progress during login -->
-    <div class="admin-progress" id="admin-progress">
-      <div class="admin-prog-lbl">Authenticating across all teams…</div>
-      <div class="admin-prog-teams">
-        <div class="admin-prog-row" id="aprow-kalpesh">
-          <span style="font-size:14px">🔵</span>
-          <span class="admin-prog-name">Kalpesh Team</span>
-          <span class="admin-prog-st apst-wait" id="apst-kalpesh">Waiting</span>
-        </div>
-        <div class="admin-prog-row" id="aprow-aparna">
-          <span style="font-size:14px">🟢</span>
-          <span class="admin-prog-name">Aparna Team</span>
-          <span class="admin-prog-st apst-wait" id="apst-aparna">Waiting</span>
-        </div>
-        <div class="admin-prog-row" id="aprow-vibhavri">
-          <span style="font-size:14px">🩷</span>
-          <span class="admin-prog-name">Vibhavri Team</span>
-          <span class="admin-prog-st apst-wait" id="apst-vibhavri">Waiting</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="admin-footer">
-      Not an admin?
-      <button class="admin-switch-link" onclick="showTeamLogin()">Sign in to a single team →</button>
-    </div>
-  </div>
-</div>
-
-<!-- ════════════════════ LOGIN SCREEN ════════════════════ -->
+<!-- ════════════════════ UNIFIED LOGIN ════════════════════ -->
 <div id="login-screen">
   <div class="login-card">
+
+    <!-- Logo -->
     <div class="login-logo">
       <div class="login-logo-icon" id="ll-icon">GST</div>
-      <div class="login-logo-text">
-        <div class="login-logo-title" id="ll-team">Select a Team</div>
-        <div class="login-logo-sub">GST Tracker</div>
-      </div>
+      <div class="login-logo-title" id="ll-team">GST Tracker</div>
+      <div class="login-logo-sub" id="ll-sub">Admin · All Teams Dashboard</div>
     </div>
-    <!-- Team picker on login screen -->
-    <div style="display:flex;gap:6px;margin-bottom:20px;justify-content:center">
-      <button onclick="switchTeam('kalpesh')" id="lt-kalpesh"
-        style="flex:1;padding:7px 4px;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;border:1.5px solid #bfdbfe;background:#eff6ff;color:#1e40af;font-family:inherit;transition:all .15s">
-        Kalpesh
+
+    <!-- Tab strip: Admin | Kalpesh | Aparna | Vibhavri -->
+    <div class="login-tabs">
+      <button class="login-tab lt-active-admin" id="ltab-admin" onclick="loginTab('admin')">
+        🛡 Admin
       </button>
-      <button onclick="switchTeam('aparna')" id="lt-aparna"
-        style="flex:1;padding:7px 4px;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;border:1px solid #d1d5db;background:#f9fafb;color:#6b7280;font-family:inherit;transition:all .15s">
-        Aparna
+      <button class="login-tab" id="ltab-kalpesh" onclick="loginTab('kalpesh')">
+        <span class="login-tab-dot ltd-k"></span>Kalpesh
       </button>
-      <button onclick="switchTeam('vibhavri')" id="lt-vibhavri"
-        style="flex:1;padding:7px 4px;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;border:1px solid #d1d5db;background:#f9fafb;color:#6b7280;font-family:inherit;transition:all .15s">
-        Vibhavri
+      <button class="login-tab" id="ltab-aparna" onclick="loginTab('aparna')">
+        <span class="login-tab-dot ltd-a"></span>Aparna
+      </button>
+      <button class="login-tab" id="ltab-vibhavri" onclick="loginTab('vibhavri')">
+        <span class="login-tab-dot ltd-v"></span>Vibhavri
       </button>
     </div>
-    <div class="login-heading">
-      <h2>Welcome Back</h2>
-      <p>Sign in to access your GST dashboard</p>
+
+    <!-- Divider label -->
+    <div class="login-divider">
+      <div class="login-divider-line"></div>
+      <div class="login-divider-txt" id="ll-divider-txt">Admin Sign In</div>
+      <div class="login-divider-line"></div>
     </div>
+
+    <!-- Mobile field -->
     <div class="login-fg">
       <label class="login-lbl" for="login-mobile">Mobile Number</label>
-      <input class="login-inp" id="login-mobile" type="tel" placeholder="Enter your mobile number" maxlength="15" autocomplete="username">
+      <div class="login-inp-wrap">
+        <span class="login-inp-icon">📱</span>
+        <input class="login-inp" id="login-mobile" type="tel" placeholder="Enter mobile number" maxlength="15" autocomplete="username">
+      </div>
     </div>
+
+    <!-- Password field -->
     <div class="login-fg">
       <label class="login-lbl" for="login-pass">Password</label>
-      <input class="login-inp" id="login-pass" type="password" placeholder="Enter your password" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()">
+      <div class="login-inp-wrap">
+        <span class="login-inp-icon">🔒</span>
+        <input class="login-inp" id="login-pass" type="password" placeholder="Enter password" autocomplete="current-password" onkeydown="if(event.key==='Enter')doUnifiedLogin()">
+      </div>
     </div>
-    <button class="login-btn" id="login-btn" onclick="doLogin()">Sign In</button>
+
+    <button class="login-btn" id="login-btn" onclick="doUnifiedLogin()">Sign In to All Teams →</button>
     <div class="login-err" id="login-err"></div>
+
+    <!-- Admin progress -->
+    <div class="login-progress" id="login-progress">
+      <div class="login-prog-lbl">Authenticating across all teams…</div>
+      <div class="login-prog-row"><span style="font-size:13px">🔵</span><span class="login-prog-name">Kalpesh Team</span><span class="login-prog-st lpst-wait" id="lpst-kalpesh">Waiting</span></div>
+      <div class="login-prog-row"><span style="font-size:13px">🟢</span><span class="login-prog-name">Aparna Team</span><span class="login-prog-st lpst-wait" id="lpst-aparna">Waiting</span></div>
+      <div class="login-prog-row"><span style="font-size:13px">🩷</span><span class="login-prog-name">Vibhavri Team</span><span class="login-prog-st lpst-wait" id="lpst-vibhavri">Waiting</span></div>
+    </div>
+
     <div class="login-footer" id="ll-footer">GST Tracker &nbsp;|&nbsp; Secure Login</div>
-    <div style="text-align:center;margin-top:10px"><button class="admin-switch-link" onclick="showAdminLogin()" style="font-size:10px;color:#a0aec0;text-decoration:underline;cursor:pointer;background:none;border:none;font-family:inherit">← Back to Admin Login</button></div>
   </div>
 </div>
 
@@ -1569,6 +1492,7 @@ const TEAM_CONFIG = {
 // ═══════════════════════════════════════════════════════
 // Active team — read from localStorage or default to kalpesh
 let activeTeam = localStorage.getItem('gst_active_team') || 'kalpesh';
+let loginMode = 'admin'; // current login tab: 'admin'|'kalpesh'|'aparna'|'vibhavri'
 // scriptUrl is set dynamically by switchTeam()
 const APPS_SCRIPT_URL = TEAM_CONFIG[activeTeam].url;
 
@@ -2503,101 +2427,28 @@ function showToast(msg,type){
 
 // ── LOGIN / AUTH ─────────────────────────────────────────
 (function(){
-  // If admin session is active, hide both login screens
+  // Restore admin session
   if(sessionStorage.getItem('gst_admin_session')==='1'){
-    // Also mark each team as authed if admin session exists
     ['kalpesh','aparna','vibhavri'].forEach(t=>sessionStorage.setItem('gst_auth_'+t,'1'));
-    const al=document.getElementById('admin-login-screen');
     const ls=document.getElementById('login-screen');
-    if(al)al.style.display='none';
     if(ls)ls.style.display='none';
     return;
   }
-  // Check individual team session
+  // Individual team session
   if(sessionStorage.getItem('gst_auth_'+activeTeam)==='1'){
-    const al=document.getElementById('admin-login-screen');
     const ls=document.getElementById('login-screen');
-    if(al)al.style.display='none';
     if(ls)ls.style.display='none';
     return;
   }
-  // Default: show admin login, hide team login
-  const ls=document.getElementById('login-screen');
-  if(ls)ls.style.display='none';
+  // Default: show login, start on Admin tab
+  // (login-screen is visible by default)
 })();
 
-async function doLogin(){
-  const mobile=(document.getElementById('login-mobile').value||'').trim();
-  const pass=(document.getElementById('login-pass').value||'').trim();
-  const errEl=document.getElementById('login-err');
-  const btn=document.getElementById('login-btn');
 
-  errEl.classList.remove('show');
-  if(!mobile||!pass){errEl.textContent='Please enter mobile number and password.';errEl.classList.add('show');return;}
-
-  btn.textContent='Signing in…';btn.disabled=true;
-
-  try{
-    // Validate via Apps Script backend
-    const res=await fetch(TEAM_CONFIG[activeTeam].url+'?action=validateLogin',{
-      method:'POST',
-      body:JSON.stringify({action:'validateLogin',mobile,password:pass})
-    });
-    const j=await res.json();
-    if(j.success&&j.data&&j.data.valid){
-      sessionStorage.setItem('gst_auth_'+activeTeam,'1');
-      const ls=document.getElementById('login-screen');
-      if(ls){ls.style.transition='opacity .3s';ls.style.opacity='0';setTimeout(()=>ls.style.display='none',300);}
-    }else{
-      errEl.textContent='Invalid credentials. Please try again.';
-      errEl.classList.add('show');
-      document.getElementById('login-pass').value='';
-      document.getElementById('login-pass').focus();
-    }
-  }catch(e){
-    errEl.textContent='Connection error. Please check your network.';
-    errEl.classList.add('show');
-  }
-  btn.textContent='Sign In';btn.disabled=false;
-}
 
 // ── INIT ────────────────────────────────────────────────
 // ── TEAM SWITCHING ────────────────────────────────────────
-function applyTeamUI(team){
-  const cfg = TEAM_CONFIG[team];
-  // Sidebar brand
-  const li = document.getElementById('sb-logo-icon');
-  const ln = document.getElementById('sb-team-name');
-  if(li) li.textContent = cfg.initials;
-  if(ln) ln.textContent = cfg.name;
-  // Topbar tag
-  const tt = document.getElementById('topbar-team-tag');
-  if(tt){ tt.textContent = cfg.name.split(' ')[0]; tt.className='team-tag team-tag-'+cfg.color; }
-  // Sidebar team buttons
-  ['kalpesh','aparna','vibhavri'].forEach(t=>{
-    const b=document.getElementById('tbtn-'+t);
-    if(b) b.classList.toggle('active-team', t===team);
-  });
-  // Login screen
-  const li2=document.getElementById('ll-icon');
-  const ln2=document.getElementById('ll-team');
-  const lf=document.getElementById('ll-footer');
-  if(li2) li2.textContent=cfg.initials;
-  if(ln2) ln2.textContent=cfg.name;
-  if(lf)  lf.textContent=cfg.name+' © GST Tracker | Secure Login';
-  // Login team pick buttons
-  ['kalpesh','aparna','vibhavri'].forEach(t=>{
-    const b=document.getElementById('lt-'+t);
-    if(!b) return;
-    if(t===team){
-      const colors={kalpesh:{bg:'#eff6ff',cl:'#1e40af',bd:'#bfdbfe'},aparna:{bg:'#ecfdf5',cl:'#065f46',bd:'#bbf7d0'},vibhavri:{bg:'#fdf2f8',cl:'#9d174d',bd:'#fbcfe8'}};
-      const c=colors[t];
-      b.style.background=c.bg; b.style.color=c.cl; b.style.borderColor=c.bd; b.style.borderWidth='1.5px';
-    } else {
-      b.style.background='#f9fafb'; b.style.color='#6b7280'; b.style.borderColor='#d1d5db'; b.style.borderWidth='1px';
-    }
-  });
-}
+// applyTeamUI → see unified version below
 
 async function switchTeam(team){
   if(team===activeTeam) return;
@@ -2628,9 +2479,6 @@ async function switchTeam(team){
 
 async function init(){
   applyTeamUI(activeTeam);
-  // Show/hide admin indicator
-  const adminInd=document.getElementById('sb-admin-indicator');
-  if(adminInd) adminInd.style.display=sessionStorage.getItem('gst_admin_session')==='1'?'':'none';
   await loadLocal();renderAll();setView('gst');updBkOpts();
   if(scriptUrl&&!scriptUrl.includes('YOUR_')){
     setSS('busy','Connecting…');
@@ -2658,145 +2506,18 @@ const ADMIN_USERS = [
   { mobile: '9029161850', password: '9029' }, // Admin 3
 ];
 
-function setProgSt(team, state, text) {
-  const el2 = document.getElementById('apst-'+team);
-  if (!el2) return;
-  el2.className = 'admin-prog-st apst-' + state;
-  el2.textContent = text;
-}
 
-async function doAdminLogin() {
-  const mobile = (document.getElementById('admin-mobile').value || '').trim();
-  const pass   = (document.getElementById('admin-pass').value   || '').trim();
-  const errEl  = document.getElementById('admin-err');
-  const btn    = document.getElementById('admin-login-btn');
-  const prog   = document.getElementById('admin-progress');
 
-  errEl.classList.remove('show');
 
-  if (!mobile || !pass) {
-    errEl.textContent = 'Please enter mobile number and password.';
-    errEl.classList.add('show');
-    return;
-  }
 
-  // ── Check admin credentials locally first ──
-  const isValidAdmin = ADMIN_USERS.some(u => u.mobile === mobile && u.password === pass);
-  if (!isValidAdmin) {
-    errEl.textContent = 'Invalid admin credentials. Use your team login instead.';
-    errEl.classList.add('show');
-    return;
-  }
 
-  btn.textContent = 'Signing in…';
-  btn.disabled = true;
-  prog.classList.add('show');
 
-  // Reset progress indicators
-  ['kalpesh','aparna','vibhavri'].forEach(t => setProgSt(t, 'wait', 'Waiting'));
 
-  // ── Authenticate against each team in parallel ──
-  const teams = ['kalpesh','aparna','vibhavri'];
-  let allOk = true;
-  const results = {};
-
-  await Promise.all(teams.map(async (team) => {
-    const url = TEAM_CONFIG[team].url;
-    setProgSt(team, 'busy', 'Checking…');
-    if (!url || url.includes('YOUR_')) {
-      // URL not configured — skip but mark session so team is accessible
-      setProgSt(team, 'ok', 'Skipped (no URL)');
-      sessionStorage.setItem('gst_auth_'+team, '1');
-      results[team] = true;
-      return;
-    }
-    try {
-      const res = await fetch(url + '?action=validateLogin', {
-        method: 'POST',
-        body: JSON.stringify({ action: 'validateLogin', mobile, password: pass })
-      });
-      const j = await res.json();
-      if (j.success && j.data && j.data.valid) {
-        sessionStorage.setItem('gst_auth_'+team, '1');
-        setProgSt(team, 'ok', '✓ Authenticated');
-        results[team] = true;
-      } else {
-        setProgSt(team, 'err', 'Not found in team');
-        results[team] = false;
-        allOk = false;
-      }
-    } catch(e) {
-      setProgSt(team, 'err', 'Connection error');
-      results[team] = false;
-      allOk = false;
-    }
-  }));
-
-  btn.textContent = 'Sign In to All Teams →';
-  btn.disabled = false;
-
-  if (!allOk) {
-    // Show error but also offer to continue if at least one succeeded
-    const successCount = Object.values(results).filter(Boolean).length;
-    if (successCount === 0) {
-      errEl.textContent = 'Authentication failed on all teams. Check your credentials in each team\'s LOGIN_USERS sheet.';
-      errEl.classList.add('show');
-      return;
-    }
-    // Partial success — allow in with warning after short delay
-    errEl.textContent = successCount + '/3 teams authenticated. Some teams may not be accessible.';
-    errEl.classList.add('show');
-    // Wait 1.5s then proceed
-    await new Promise(r => setTimeout(r, 1500));
-  }
-
-  // ── All (or partial) auth done — dismiss admin screen ──
-  sessionStorage.setItem('gst_admin_session', '1');
-  const adminScreen = document.getElementById('admin-login-screen');
-  if (adminScreen) {
-    adminScreen.style.transition = 'opacity .4s';
-    adminScreen.style.opacity = '0';
-    setTimeout(() => { adminScreen.style.display = 'none'; }, 400);
-  }
-  // Make sure team login screen is also hidden
-  const ls = document.getElementById('login-screen');
-  if (ls) ls.style.display = 'none';
-
-  // Load the default team (kalpesh) and connect
-  applyTeamUI(activeTeam);
-  await loadLocal(); renderAll(); setView('gst'); updBkOpts();
-  if (scriptUrl && !scriptUrl.includes('YOUR_')) {
-    setSS('busy', 'Connecting…');
-    try {
-      const r = await sf('ping');
-      months = (r.sheets || []).filter(s => /^[A-Z]{3}_\d{4}$/.test(s));
-      setSS('ok', 'Connected'); syncAll();
-    } catch(e) { setSS('err', 'Cannot connect'); }
-  }
-}
-
-function showTeamLogin() {
-  // Hide admin login, show individual team login
-  const al = document.getElementById('admin-login-screen');
-  const ll = document.getElementById('login-screen');
-  if (al) { al.style.transition='opacity .25s'; al.style.opacity='0'; setTimeout(()=>{al.style.display='none';},250); }
-  if (ll) { ll.style.display=''; setTimeout(()=>{ ll.style.opacity='1'; },10); }
-  applyTeamUI(activeTeam);
-}
-
-function showAdminLogin() {
-  const al = document.getElementById('admin-login-screen');
-  const ll = document.getElementById('login-screen');
-  if (ll) ll.style.display = 'none';
-  if (al) { al.style.display='flex'; al.style.opacity='0'; setTimeout(()=>{ al.style.transition='opacity .25s'; al.style.opacity='1'; },10); }
-}
 
 
 function doAdminLogout(){
   if(!confirm('Sign out of all teams?')) return;
-  ['kalpesh','aparna','vibhavri'].forEach(t=>{
-    sessionStorage.removeItem('gst_auth_'+t);
-  });
+  ['kalpesh','aparna','vibhavri'].forEach(t=>sessionStorage.removeItem('gst_auth_'+t));
   sessionStorage.removeItem('gst_admin_session');
   location.reload();
 }
@@ -3038,6 +2759,202 @@ function exportAllClientsCSV() {
   document.body.appendChild(a); a.click(); document.body.removeChild(a);
   setTimeout(() => URL.revokeObjectURL(a.href), 2000);
   showToast('Exported ' + rows.length + ' clients ✓', 'ok');
+}
+
+
+// ── UNIFIED LOGIN ─────────────────────────────────────────
+
+function loginTab(mode) {
+  loginMode = mode;
+  const isAdmin = mode === 'admin';
+
+  // Logo area
+  const icon = document.getElementById('ll-icon');
+  const title = document.getElementById('ll-team');
+  const sub   = document.getElementById('ll-sub');
+  const div   = document.getElementById('ll-divider-txt');
+  const btn   = document.getElementById('login-btn');
+  const prog  = document.getElementById('login-progress');
+  const foot  = document.getElementById('ll-footer');
+
+  if (isAdmin) {
+    if (icon)  icon.textContent = 'GST';
+    if (title) title.textContent = 'GST Tracker';
+    if (sub)   sub.textContent = 'Admin · All Teams Dashboard';
+    if (div)   div.textContent = 'Admin Sign In';
+    if (btn)   btn.textContent = 'Sign In to All Teams →';
+    if (foot)  foot.textContent = 'GST Tracker | Secure Login';
+  } else {
+    const cfg = TEAM_CONFIG[mode];
+    if (icon)  { icon.textContent = cfg.initials; }
+    if (title) title.textContent = cfg.name;
+    if (sub)   sub.textContent = 'GST Tracker';
+    if (div)   div.textContent = cfg.name.replace(' Team','') + ' Sign In';
+    if (btn)   btn.textContent = 'Sign In';
+    if (foot)  foot.textContent = cfg.name + ' © GST Tracker | Secure Login';
+    // Set active team
+    activeTeam = mode;
+    localStorage.setItem('gst_active_team', mode);
+    scriptUrl = TEAM_CONFIG[mode].url;
+  }
+
+  if (prog) prog.classList.remove('show');
+
+  // Tab active styles
+  const tabStyles = {
+    admin:    'lt-active-admin',
+    kalpesh:  'lt-active-k',
+    aparna:   'lt-active-a',
+    vibhavri: 'lt-active-v',
+  };
+  ['admin','kalpesh','aparna','vibhavri'].forEach(t => {
+    const tb = document.getElementById('ltab-'+t);
+    if (!tb) return;
+    tb.className = 'login-tab' + (t === mode ? ' ' + tabStyles[t] : '');
+  });
+
+  // Clear fields & errors
+  document.getElementById('login-mobile').value = '';
+  document.getElementById('login-pass').value = '';
+  document.getElementById('login-err').classList.remove('show');
+}
+
+async function doUnifiedLogin() {
+  const mobile = (document.getElementById('login-mobile').value || '').trim();
+  const pass   = (document.getElementById('login-pass').value   || '').trim();
+  const errEl  = document.getElementById('login-err');
+  const btn    = document.getElementById('login-btn');
+  const prog   = document.getElementById('login-progress');
+
+  errEl.classList.remove('show');
+  if (!mobile || !pass) {
+    errEl.textContent = 'Please enter mobile number and password.';
+    errEl.classList.add('show');
+    return;
+  }
+
+  if (loginMode === 'admin') {
+    // ── Admin: check local credentials, then auth all 3 teams ──
+    const isValidAdmin = ADMIN_USERS.some(u => u.mobile === mobile && u.password === pass);
+    if (!isValidAdmin) {
+      errEl.textContent = 'Invalid admin credentials.';
+      errEl.classList.add('show');
+      return;
+    }
+    btn.textContent = 'Signing in…'; btn.disabled = true;
+    if (prog) prog.classList.add('show');
+    ['kalpesh','aparna','vibhavri'].forEach(t => setLPSt(t,'wait','Waiting'));
+
+    const teams = ['kalpesh','aparna','vibhavri'];
+    const results = {};
+    await Promise.all(teams.map(async team => {
+      const url = TEAM_CONFIG[team].url;
+      setLPSt(team,'busy','Checking…');
+      if (!url || url.includes('YOUR_')) {
+        sessionStorage.setItem('gst_auth_'+team,'1');
+        setLPSt(team,'ok','Skipped'); results[team]=true; return;
+      }
+      try {
+        const res = await fetch(url+'?action=validateLogin',{method:'POST',body:JSON.stringify({action:'validateLogin',mobile,password:pass})});
+        const j = await res.json();
+        if (j.success && j.data && j.data.valid) {
+          sessionStorage.setItem('gst_auth_'+team,'1');
+          setLPSt(team,'ok','✓ Done'); results[team]=true;
+        } else { setLPSt(team,'err','Not found'); results[team]=false; }
+      } catch(e) { setLPSt(team,'err','Error'); results[team]=false; }
+    }));
+
+    btn.textContent = 'Sign In to All Teams →'; btn.disabled = false;
+    const ok = Object.values(results).filter(Boolean).length;
+    if (ok === 0) {
+      errEl.textContent = 'Authentication failed on all teams.';
+      errEl.classList.add('show'); return;
+    }
+    if (ok < 3) {
+      errEl.textContent = ok+'/3 teams authenticated.';
+      errEl.classList.add('show');
+      await new Promise(r => setTimeout(r,1500));
+    }
+    sessionStorage.setItem('gst_admin_session','1');
+    dismissLogin();
+    applyTeamUI(activeTeam);
+    await loadLocal(); renderAll(); setView('gst'); updBkOpts();
+    if (scriptUrl && !scriptUrl.includes('YOUR_')) {
+      setSS('busy','Connecting…');
+      try { const r=await sf('ping'); months=(r.sheets||[]).filter(s=>/^[A-Z]{3}_\d{4}$/.test(s)); setSS('ok','Connected'); syncAll(); }
+      catch(e) { setSS('err','Cannot connect'); }
+    }
+
+  } else {
+    // ── Team login ──
+    btn.textContent = 'Signing in…'; btn.disabled = true;
+    try {
+      const url = TEAM_CONFIG[loginMode].url;
+      if (!url || url.includes('YOUR_')) {
+        sessionStorage.setItem('gst_auth_'+loginMode,'1');
+      } else {
+        const res = await fetch(url+'?action=validateLogin',{method:'POST',body:JSON.stringify({action:'validateLogin',mobile,password:pass})});
+        const j = await res.json();
+        if (!(j.success && j.data && j.data.valid)) {
+          errEl.textContent = 'Invalid credentials. Please try again.';
+          errEl.classList.add('show');
+          document.getElementById('login-pass').value = '';
+          btn.textContent = 'Sign In'; btn.disabled = false; return;
+        }
+        sessionStorage.setItem('gst_auth_'+loginMode,'1');
+      }
+      dismissLogin();
+      applyTeamUI(activeTeam);
+      await loadLocal(); renderAll(); setView('gst'); updBkOpts();
+      if (scriptUrl && !scriptUrl.includes('YOUR_')) {
+        setSS('busy','Connecting…');
+        try { const r=await sf('ping'); months=(r.sheets||[]).filter(s=>/^[A-Z]{3}_\d{4}$/.test(s)); setSS('ok','Connected'); syncAll(); }
+        catch(e) { setSS('err','Cannot connect'); }
+      }
+    } catch(e) {
+      errEl.textContent = 'Connection error. Please check network.';
+      errEl.classList.add('show');
+    }
+    btn.textContent = 'Sign In'; btn.disabled = false;
+  }
+}
+
+function setLPSt(team, state, text) {
+  const el2 = document.getElementById('lpst-'+team);
+  if (!el2) return;
+  el2.className = 'login-prog-st lpst-'+state;
+  el2.textContent = text;
+}
+
+function dismissLogin() {
+  const ls = document.getElementById('login-screen');
+  if (ls) { ls.style.transition='opacity .3s'; ls.style.opacity='0'; setTimeout(()=>ls.style.display='none',300); }
+}
+
+// applyTeamUI — updates sidebar/topbar for the active team (main app UI only)
+function applyTeamUI(team) {
+  const cfg = TEAM_CONFIG[team];
+  const li = document.getElementById('sb-logo-icon');
+  const ln = document.getElementById('sb-team-name');
+  if (li) li.textContent = cfg.initials;
+  if (ln) ln.textContent = cfg.name;
+  const tt = document.getElementById('topbar-team-tag');
+  if (tt) { tt.textContent = cfg.name.split(' ')[0]; tt.className='team-tag team-tag-'+cfg.color; }
+  ['kalpesh','aparna','vibhavri'].forEach(t => {
+    const b = document.getElementById('tbtn-'+t);
+    if (b) b.classList.toggle('active-team', t===team);
+  });
+  // Show/hide admin indicator
+  const adminInd = document.getElementById('sb-admin-indicator');
+  if (adminInd) adminInd.style.display = sessionStorage.getItem('gst_admin_session')==='1' ? '' : 'none';
+}
+
+// Shims for old function names still referenced elsewhere
+function showAdminLogin()  { showLoginScreen(); loginTab('admin'); }
+function showTeamLogin(t)  { showLoginScreen(); loginTab(t || activeTeam); }
+function showLoginScreen() {
+  const ls = document.getElementById('login-screen');
+  if (ls) { ls.style.display='flex'; ls.style.opacity='0'; setTimeout(()=>{ ls.style.transition='opacity .25s'; ls.style.opacity='1'; },10); }
 }
 
 </script>
