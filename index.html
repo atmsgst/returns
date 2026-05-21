@@ -190,6 +190,7 @@ body{display:flex;overflow:hidden}
 .main{
   margin-left:var(--sb-w);flex:1;display:flex;flex-direction:column;
   height:100vh;overflow:hidden;
+  position:relative;
 }
 
 /* ── TOPBAR ── */
@@ -758,6 +759,138 @@ tbody tr{animation:faderow .18s ease both}
 }
 .admin-switch-link:hover{color:#1d4ed8}
 
+
+/* ═══════════════════════════════════════════════
+   ALL CLIENTS PANEL
+═══════════════════════════════════════════════ */
+/* All Clients panel — positioned absolutely within .main, fills below topbar */
+#allclients-panel{
+  position:fixed;
+  top:var(--top-h);
+  left:var(--sb-w);   /* start after sidebar */
+  right:0;
+  bottom:0;
+  display:none;
+  flex-direction:column;
+  background:var(--white);
+  z-index:50;
+  overflow:hidden;
+  box-sizing:border-box;
+}
+#allclients-panel.active{display:flex;}
+
+/* Sync bar */
+.ac-sync-bar{
+  display:flex;align-items:center;gap:8px;padding:7px 20px;
+  background:var(--navy);color:rgba(255,255,255,.65);font-size:10px;font-weight:600;
+  flex-shrink:0;
+}
+.ac-sync-dot{width:7px;height:7px;border-radius:50%;background:#64748b;flex-shrink:0;}
+.ac-sync-dot.ok{background:#22c55e;box-shadow:0 0 5px #22c55e;}
+.ac-sync-dot.busy{background:#f59e0b;animation:acpulse .8s infinite;}
+.ac-sync-dot.err{background:#ef4444;}
+@keyframes acpulse{0%,100%{opacity:1}50%{opacity:.3}}
+.ac-refresh-btn{
+  margin-left:auto;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);
+  color:rgba(255,255,255,.75);padding:4px 12px;border-radius:6px;font-size:10px;font-weight:600;
+  cursor:pointer;font-family:inherit;transition:all .15s;
+}
+.ac-refresh-btn:hover{background:rgba(255,255,255,.2);color:white;}
+
+/* Stats pills row */
+.ac-stats-bar{
+  display:flex;gap:8px;padding:10px 20px;background:var(--bg2);
+  border-bottom:1px solid var(--border);flex-shrink:0;flex-wrap:wrap;align-items:center;
+}
+.ac-stat-pill{
+  display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:22px;
+  font-size:11px;font-weight:700;border:1.5px solid;cursor:pointer;transition:all .15s;white-space:nowrap;
+}
+.ac-stat-pill:hover{transform:translateY(-1px);box-shadow:var(--s2);}
+.ac-stat-pill.ac-all{background:#f1f5f9;border-color:#cbd5e1;color:#334155;}
+.ac-stat-pill.ac-k{background:#eff6ff;border-color:#bfdbfe;color:#1e40af;}
+.ac-stat-pill.ac-a{background:#ecfdf5;border-color:#a7f3d0;color:#065f46;}
+.ac-stat-pill.ac-v{background:#fdf2f8;border-color:#fbcfe8;color:#9d174d;}
+.ac-stat-pill.active-pill{box-shadow:0 0 0 2.5px currentColor;font-weight:900;}
+.ac-stat-count{font-size:15px;font-weight:900;}
+
+/* Filter toolbar */
+.ac-toolbar{
+  display:flex;align-items:center;gap:8px;flex-wrap:wrap;
+  padding:9px 20px;background:var(--white);border-bottom:1px solid var(--border);flex-shrink:0;
+}
+
+/* ─── TABLE WRAPPER: both-axis scroll ─── */
+.ac-tbl-wrap{
+  flex:1;
+  overflow:auto;
+  background:var(--white);
+  /* No padding — table handles its own cell padding */
+}
+
+/* ─── TABLE ─── */
+.ac-table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:12px;
+  min-width:960px;    /* prevent columns squishing; enables horizontal scroll */
+}
+
+/* Header row */
+.ac-table thead th{
+  position:sticky;top:0;z-index:3;
+  background:var(--navy);color:rgba(255,255,255,.85);
+  padding:10px 14px;text-align:left;font-size:10px;font-weight:700;
+  letter-spacing:.5px;text-transform:uppercase;white-space:nowrap;
+  cursor:pointer;user-select:none;
+  border-right:1px solid rgba(255,255,255,.07);
+}
+.ac-table thead th:last-child{border-right:none;}
+.ac-table thead th:hover{background:#2c4a6e;color:white;}
+.ac-table thead th.sorted{background:#2c4a6e;color:#fbbf24;}
+.ac-table thead th .sort-arr{opacity:.3;margin-left:3px;font-size:9px;}
+.ac-table thead th.sorted .sort-arr{opacity:1;}
+
+/* Freeze Client Name column */
+.ac-table thead th:first-child{
+  position:sticky;left:0;z-index:5;
+  background:var(--navy);
+}
+.ac-table tbody tr:nth-child(odd) td:first-child { background:#ffffff; }
+.ac-table tbody tr:nth-child(even) td:first-child { background:#fafbff; }
+.ac-table tbody tr:hover td:first-child            { background:#eef3ff; }
+.ac-table tbody td:first-child{
+  position:sticky;left:0;z-index:2;
+  border-right:2px solid #e2e8f0;
+  box-shadow:2px 0 6px rgba(0,0,0,.06);
+}
+
+/* Zebra + hover */
+.ac-table tbody tr:nth-child(even){background:#fafbff;}
+.ac-table tbody tr:hover{background:#eef3ff;}
+.ac-table tbody tr{border-bottom:1px solid var(--border);transition:background .1s;}
+.ac-table tbody td{padding:9px 14px;vertical-align:middle;white-space:nowrap;}
+
+/* Cell content styles */
+.ac-sno{color:var(--ink5);font-size:10px;font-weight:600;min-width:22px;display:inline-block;text-align:right;margin-right:6px;}
+.ac-name{font-weight:700;color:var(--ink);font-size:12px;}
+.ac-gstin{font-size:10px;color:var(--ink4);font-family:monospace;letter-spacing:.4px;margin-top:2px;}
+
+.ac-team-badge{
+  display:inline-flex;align-items:center;gap:4px;padding:3px 9px;
+  border-radius:10px;font-size:10px;font-weight:700;border:1.5px solid;white-space:nowrap;
+}
+.acb-k{background:#eff6ff;border-color:#bfdbfe;color:#1e40af;}
+.acb-a{background:#ecfdf5;border-color:#a7f3d0;color:#065f46;}
+.acb-v{background:#fdf2f8;border-color:#fbcfe8;color:#9d174d;}
+
+.ac-table .pA{background:#f0fdf4;color:#15803d;font-weight:800;padding:3px 8px;border-radius:6px;font-size:10px;border:1px solid #bbf7d0;}
+.ac-table .pB{background:#eff6ff;color:#1e40af;font-weight:800;padding:3px 8px;border-radius:6px;font-size:10px;border:1px solid #bfdbfe;}
+.ac-table .pC{background:#fffbeb;color:#92400e;font-weight:800;padding:3px 8px;border-radius:6px;font-size:10px;border:1px solid #fde68a;}
+.ac-table .pD{background:#fef2f2;color:#991b1b;font-weight:800;padding:3px 8px;border-radius:6px;font-size:10px;border:1px solid #fecaca;}
+
+.ac-empty{text-align:center;padding:70px 20px;color:var(--ink4);}
+
 </style>
 </head>
 <body>
@@ -915,6 +1048,10 @@ tbody tr{animation:faderow .18s ease both}
       <span class="sb-icon">👥</span><span>Employees</span>
       <span class="sb-badge" id="nb-emp" style="display:none">0</span>
     </div>
+    <div class="sb-item" id="nav-allclients" onclick="setView('allclients')">
+      <span class="sb-icon">🌐</span><span>All Clients</span>
+      <span class="sb-badge" id="nb-allclients" style="display:none">0</span>
+    </div>
 
     <div class="sb-section-lbl" id="months-lbl">Monthly Returns</div>
     <div id="sbMonths">
@@ -975,6 +1112,10 @@ tbody tr{animation:faderow .18s ease both}
     </div>
     <div style="display:none;align-items:center;gap:8px;margin-left:auto" id="emp-actions">
       <button class="tb-btn tb-primary" onclick="openAddEmp()">＋ Add Employee</button>
+    </div>
+    <div style="display:none;align-items:center;gap:8px;margin-left:auto" id="allclients-actions">
+      <button class="tb-btn tb-secondary" onclick="exportAllClientsCSV()">⬇ Export All</button>
+      <button class="tb-btn tb-navy" onclick="refreshAllClients()">🔄 Refresh All Teams</button>
     </div>
   </div>
 
@@ -1341,6 +1482,79 @@ tbody tr{animation:faderow .18s ease both}
   </div>
 </div>
 
+<!-- ════════════════════ ALL CLIENTS PANEL ════════════════════ -->
+<div class="content-panel" id="allclients-panel">
+
+  <!-- ① Sync bar -->
+  <div class="ac-sync-bar">
+    <div class="ac-sync-dot" id="ac-sync-dot"></div>
+    <span id="ac-sync-lbl">Loading all teams…</span>
+    <button class="ac-refresh-btn" onclick="refreshAllClients()">🔄 Refresh</button>
+  </div>
+
+  <!-- ② Team count pills -->
+  <div class="ac-stats-bar">
+    <div class="ac-stat-pill ac-all active-pill" onclick="acFilterTeam('')" id="ac-pill-all">
+      <span class="ac-stat-count" id="ac-cnt-all">0</span>&nbsp;All Teams
+    </div>
+    <div class="ac-stat-pill ac-k" onclick="acFilterTeam('kalpesh')" id="ac-pill-kalpesh">
+      🔵&nbsp;<span class="ac-stat-count" id="ac-cnt-kalpesh">0</span>&nbsp;Kalpesh
+    </div>
+    <div class="ac-stat-pill ac-a" onclick="acFilterTeam('aparna')" id="ac-pill-aparna">
+      🟢&nbsp;<span class="ac-stat-count" id="ac-cnt-aparna">0</span>&nbsp;Aparna
+    </div>
+    <div class="ac-stat-pill ac-v" onclick="acFilterTeam('vibhavri')" id="ac-pill-vibhavri">
+      🩷&nbsp;<span class="ac-stat-count" id="ac-cnt-vibhavri">0</span>&nbsp;Vibhavri
+    </div>
+    <span id="ac-filter-count" style="margin-left:auto;font-size:11px;color:var(--ink4);font-weight:600;padding-right:4px;"></span>
+  </div>
+
+  <!-- ③ Filter toolbar -->
+  <div class="ac-toolbar">
+    <div class="search-box" style="flex:1;min-width:180px;max-width:300px">
+      <input id="ac-srch" placeholder="Search name, GSTIN, state, employee…" oninput="renderAllClients()">
+    </div>
+    <select class="fsel" id="ac-f-team" onchange="renderAllClients()">
+      <option value="">All Teams</option>
+      <option value="kalpesh">Kalpesh</option>
+      <option value="aparna">Aparna</option>
+      <option value="vibhavri">Vibhavri</option>
+    </select>
+    <select class="fsel" id="ac-f-freq" onchange="renderAllClients()">
+      <option value="">All Frequency</option>
+      <option>Monthly</option><option>Quarterly</option><option>ISD</option>
+    </select>
+    <select class="fsel" id="ac-f-priority" onchange="renderAllClients()">
+      <option value="">All Priority</option>
+      <option>A</option><option>B</option><option>C</option><option>D</option>
+    </select>
+    <select class="fsel" id="ac-f-state" onchange="renderAllClients()">
+      <option value="">All States</option>
+    </select>
+  </div>
+
+  <!-- ④ Table with both-axis scroll -->
+  <div class="ac-tbl-wrap">
+    <table class="ac-table">
+      <thead>
+        <tr>
+          <th onclick="acSort('name')" id="ach-name" style="min-width:240px;padding-left:20px">Client Name <span class="sort-arr">↕</span></th>
+          <th onclick="acSort('_team')" id="ach-team" style="min-width:110px">Team <span class="sort-arr">↕</span></th>
+          <th onclick="acSort('gstin')" id="ach-gstin" style="min-width:165px">GSTIN <span class="sort-arr">↕</span></th>
+          <th onclick="acSort('state')" id="ach-state" style="min-width:120px">State <span class="sort-arr">↕</span></th>
+          <th onclick="acSort('freq')" id="ach-freq" style="min-width:95px">Frequency <span class="sort-arr">↕</span></th>
+          <th onclick="acSort('priority')" id="ach-priority" style="min-width:80px;text-align:center">Priority <span class="sort-arr">↕</span></th>
+          <th onclick="acSort('emp')" id="ach-emp" style="min-width:140px">Employee <span class="sort-arr">↕</span></th>
+          <th onclick="acSort('fees')" id="ach-fees" style="min-width:105px">Fees PA <span class="sort-arr">↕</span></th>
+          <th onclick="acSort('einvoice')" id="ach-einvoice" style="min-width:120px">E-Invoice <span class="sort-arr">↕</span></th>
+        </tr>
+      </thead>
+      <tbody id="ac-tbody"></tbody>
+    </table>
+  </div>
+
+</div>
+
 <div class="toast" id="toast"><span id="toast-msg"></span></div>
 
 <script>
@@ -1492,9 +1706,9 @@ function sampleEmployees(){
 function setView(v){
   curView=v;
   // Nav active
-  ['gst','tasks','emp'].forEach(id=>{const e=el('nav-'+id);if(e)e.classList.toggle('active',id===v);});
+  ['gst','tasks','emp','allclients'].forEach(id=>{const e=el('nav-'+id);if(e)e.classList.toggle('active',id===v);});
   // Sidebar extras
-  const isGST=v==='gst', isTasks=v==='tasks', isEmp=v==='emp';
+  const isGST=v==='gst', isTasks=v==='tasks', isEmp=v==='emp', isAC=v==='allclients';
   el('months-lbl').style.display=isGST?'':'none';
   el('sbMonths').style.display=isGST?'':'none';
   el('actions-lbl').style.display='';
@@ -1503,9 +1717,9 @@ function setView(v){
   el('sb-add-task').className='sb-item'+(isTasks?'':' hidden');
   el('sb-add-emp').className='sb-item'+(isEmp?'':' hidden');
   // Topbar
-  const titles={gst:'GST <span>Returns</span>',tasks:'Other <span>Tasks</span>',emp:'<span>Employees</span>'};
+  const titles={gst:'GST <span>Returns</span>',tasks:'Other <span>Tasks</span>',emp:'<span>Employees</span>',allclients:'All <span>Clients</span>'};
   el('page-title').innerHTML=titles[v]||'';
-  ['gst-actions','tasks-actions','emp-actions'].forEach(id=>{const e=el(id);if(e)e.style.display=id===v+'-actions'?'flex':'none';});
+  ['gst-actions','tasks-actions','emp-actions','allclients-actions'].forEach(id=>{const e=el(id);if(e)e.style.display=id===v+'-actions'?'flex':'none';});
   // Panels
   el('dashPanel').style.display=isGST?'':'none';
   el('gst-toolbar').style.display=isGST?'':'none';
@@ -1513,9 +1727,20 @@ function setView(v){
   el('bulkBar').className='bulk-bar hidden';
   el('tasks-panel').className='content-panel'+(isTasks?' active':'');
   el('emp-panel').className='content-panel'+(isEmp?' active':'');
+  el('allclients-panel').className='content-panel'+(isAC?' active':'');
   if(isGST){renderDashboard();renderTableHeaders();renderTable();}
   else if(isTasks){renderTasks();}
   else if(isEmp){renderEmp();}
+  else if(isAC){
+    // Reset scroll position to top-left when entering this view
+    const wrap = document.getElementById('allclients-panel');
+    const tblWrap = document.querySelector('.ac-tbl-wrap');
+    if(tblWrap){ tblWrap.scrollTop=0; tblWrap.scrollLeft=0; }
+    renderAllClients();
+    // Auto-load if not yet loaded
+    const anyIdle = ['kalpesh','aparna','vibhavri'].some(t => allClientsData[t].status==='idle');
+    if(anyIdle) refreshAllClients();
+  }
 }
 function switchMonth(sn){
   curMonth=sn;
@@ -2574,6 +2799,245 @@ function doAdminLogout(){
   });
   sessionStorage.removeItem('gst_admin_session');
   location.reload();
+}
+
+
+// ── ALL CLIENTS TAB ──────────────────────────────────────
+// Stores clients fetched from each team's backend
+let allClientsData = {
+  kalpesh:  { clients: [], status: 'idle' },  // status: idle|loading|ok|err
+  aparna:   { clients: [], status: 'idle' },
+  vibhavri: { clients: [], status: 'idle' },
+};
+let acSortSt = { col: 'name', dir: 1 };
+let acTeamFilter = '';  // '' = all teams
+
+// Fetch clients from a specific team's URL
+async function fetchTeamClients(team) {
+  const url = TEAM_CONFIG[team].url;
+  allClientsData[team].status = 'loading';
+  updateAcSyncBar();
+  if (!url || url.includes('YOUR_')) {
+    allClientsData[team].status = 'err';
+    updateAcSyncBar();
+    return;
+  }
+  try {
+    const res = await fetch(url + '?action=getClients', {
+      method: 'POST',
+      body: JSON.stringify({ action: 'getClients' })
+    });
+    const j = await res.json();
+    if (j.success && Array.isArray(j.data)) {
+      // Tag each client with their team
+      allClientsData[team].clients = j.data.map(c => ({ ...c, _team: team }));
+      allClientsData[team].status = 'ok';
+    } else {
+      allClientsData[team].status = 'err';
+    }
+  } catch(e) {
+    allClientsData[team].status = 'err';
+  }
+  updateAcSyncBar();
+  renderAllClients();
+}
+
+async function refreshAllClients() {
+  // Reset all and reload
+  ['kalpesh','aparna','vibhavri'].forEach(t => {
+    allClientsData[t].status = 'loading';
+    allClientsData[t].clients = [];
+  });
+  updateAcSyncBar();
+  renderAllClients();
+  await Promise.all(['kalpesh','aparna','vibhavri'].map(t => fetchTeamClients(t)));
+}
+
+function updateAcSyncBar() {
+  const dot = document.getElementById('ac-sync-dot');
+  const lbl = document.getElementById('ac-sync-lbl');
+  if (!dot || !lbl) return;
+  const statuses = ['kalpesh','aparna','vibhavri'].map(t => allClientsData[t].status);
+  const allOk  = statuses.every(s => s === 'ok');
+  const anyBusy = statuses.some(s => s === 'loading');
+  const anyErr  = statuses.some(s => s === 'err');
+  if (anyBusy) {
+    dot.className = 'ac-sync-dot busy';
+    const loading = ['kalpesh','aparna','vibhavri'].filter(t => allClientsData[t].status === 'loading');
+    lbl.textContent = 'Loading ' + loading.map(t => TEAM_CONFIG[t].name).join(', ') + '…';
+  } else if (allOk) {
+    dot.className = 'ac-sync-dot ok';
+    const total = getAllClients().length;
+    lbl.textContent = 'All teams loaded · ' + total + ' clients total · ' + new Date().toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'});
+  } else if (anyErr) {
+    dot.className = 'ac-sync-dot err';
+    const errs = ['kalpesh','aparna','vibhavri'].filter(t => allClientsData[t].status === 'err');
+    lbl.textContent = 'Error loading: ' + errs.map(t => TEAM_CONFIG[t].name).join(', ');
+  } else {
+    dot.className = 'ac-sync-dot';
+    lbl.textContent = 'Ready';
+  }
+}
+
+function getAllClients() {
+  return ['kalpesh','aparna','vibhavri'].flatMap(t => allClientsData[t].clients);
+}
+
+function acFilterTeam(team) {
+  acTeamFilter = team;
+  // Update filter select
+  const sel2 = document.getElementById('ac-f-team');
+  if (sel2) sel2.value = team;
+  // Update pill active states
+  ['all','kalpesh','aparna','vibhavri'].forEach(t => {
+    const pill = document.getElementById('ac-pill-' + (t === '' ? 'all' : t));
+    if (pill) pill.classList.toggle('active-pill', (t === '' ? '' : t) === team || (t === 'all' && team === ''));
+  });
+  renderAllClients();
+}
+
+function acSort(col) {
+  if (acSortSt.col === col) acSortSt.dir *= -1;
+  else { acSortSt.col = col; acSortSt.dir = 1; }
+  // Update header indicators
+  document.querySelectorAll('.ac-table thead th').forEach(th => th.classList.remove('sorted'));
+  const hdr = document.getElementById('ach-' + col);
+  if (hdr) hdr.classList.add('sorted');
+  renderAllClients();
+}
+
+function renderAllClients() {
+  const tbody = document.getElementById('ac-tbody');
+  if (!tbody) return;
+
+  const q    = (document.getElementById('ac-srch')?.value || '').toLowerCase();
+  const tf   = document.getElementById('ac-f-team')?.value || '';
+  const ff   = document.getElementById('ac-f-freq')?.value || '';
+  const pf   = document.getElementById('ac-f-priority')?.value || '';
+  const sf2  = document.getElementById('ac-f-state')?.value || '';
+
+  // Sync pill active state with dropdown
+  acTeamFilter = tf;
+  ['all','kalpesh','aparna','vibhavri'].forEach(t => {
+    const pill = document.getElementById('ac-pill-' + (t === 'all' ? 'all' : t));
+    if (pill) pill.classList.toggle('active-pill', (t === 'all' ? '' : t) === tf);
+  });
+
+  let rows = getAllClients();
+
+  // Update counts per team
+  const cnt = {all: rows.length, kalpesh: 0, aparna: 0, vibhavri: 0};
+  rows.forEach(c => { if (cnt[c._team] !== undefined) cnt[c._team]++; });
+  ['all','kalpesh','aparna','vibhavri'].forEach(t => {
+    const el2 = document.getElementById('ac-cnt-' + t);
+    if (el2) el2.textContent = cnt[t] || 0;
+  });
+  const nbEl = document.getElementById('nb-allclients');
+  if (nbEl) { nbEl.textContent = cnt.all; nbEl.style.display = cnt.all ? '' : 'none'; }
+
+  // Filters
+  if (tf)  rows = rows.filter(c => c._team === tf);
+  if (ff)  rows = rows.filter(c => c.freq === ff);
+  if (pf)  rows = rows.filter(c => c.priority === pf);
+  if (sf2) rows = rows.filter(c => c.state === sf2);
+  if (q)   rows = rows.filter(c =>
+    (c.name||'').toLowerCase().includes(q) ||
+    (c.gstin||'').toLowerCase().includes(q) ||
+    (c.state||'').toLowerCase().includes(q) ||
+    (c.emp||'').toLowerCase().includes(q) ||
+    (c._team||'').toLowerCase().includes(q)
+  );
+
+  // Sort
+  rows = [...rows].sort((a, b) => {
+    let av = a[acSortSt.col] ?? '', bv = b[acSortSt.col] ?? '';
+    if (typeof av === 'string') av = av.toLowerCase();
+    if (typeof bv === 'string') bv = bv.toLowerCase();
+    return av < bv ? -acSortSt.dir : av > bv ? acSortSt.dir : 0;
+  });
+
+  // Populate state filter options (dynamic)
+  const stateEl = document.getElementById('ac-f-state');
+  if (stateEl) {
+    const states = [...new Set(getAllClients().map(c => c.state).filter(Boolean))].sort();
+    const curState = stateEl.value;
+    stateEl.innerHTML = '<option value="">All States</option>' + states.map(s => `<option${s===curState?' selected':''}>${h(s)}</option>`).join('');
+  }
+
+  if (!rows.length) {
+    const anyLoading = ['kalpesh','aparna','vibhavri'].some(t => allClientsData[t].status === 'loading');
+    tbody.innerHTML = `<tr><td colspan="9" class="ac-empty">
+      <div class="ac-empty-icon">${anyLoading ? '⏳' : '🔍'}</div>
+      <div style="font-size:13px;font-weight:600;color:var(--ink3)">${anyLoading ? 'Loading clients…' : 'No clients found'}</div>
+      <div style="font-size:11px;color:var(--ink4);margin-top:4px">${anyLoading ? 'Fetching from all team sheets' : 'Try adjusting your search or filters'}</div>
+    </td></tr>`;
+    return;
+  }
+
+  const teamColors = { kalpesh: 'k', aparna: 'a', vibhavri: 'v' };
+  const teamEmoji  = { kalpesh: '🔵', aparna: '🟢', vibhavri: '🩷' };
+
+  // Update "Showing X of Y" label
+  const fcEl = document.getElementById('ac-filter-count');
+  if (fcEl) {
+    const total = getAllClients().length;
+    fcEl.textContent = rows.length < total ? `Showing ${rows.length} of ${total}` : `${total} clients`;
+  }
+
+  tbody.innerHTML = rows.map((c, i) => {
+    const tc = teamColors[c._team] || 'k';
+    const te = teamEmoji[c._team] || '';
+    const tn = (TEAM_CONFIG[c._team]?.name || c._team).replace(' Team','');
+    const rawFees = String(c.fees||'').replace(/,/g,'');
+    const fees = rawFees && !isNaN(Number(rawFees))
+      ? '\u20B9' + Number(rawFees).toLocaleString('en-IN')
+      : (c.fees || '—');
+    const einv = c.einvoice === 'Applicable'
+      ? `<span style="color:#059669;font-weight:700;font-size:10px">✓ Applicable</span>`
+      : `<span style="color:#94a3b8;font-size:10px">Not Applicable</span>`;
+    return `<tr>
+      <td style="padding-left:20px">
+        <div style="display:flex;align-items:baseline;gap:6px">
+          <span class="ac-sno">${i+1}.</span>
+          <div>
+            <div class="ac-name">${h(c.name||'—')}</div>
+            <div class="ac-gstin">${h(c.gstin||'')}</div>
+          </div>
+        </div>
+      </td>
+      <td><span class="ac-team-badge acb-${tc}">${te}&nbsp;${h(tn)}</span></td>
+      <td><span style="font-family:monospace;font-size:11px;color:var(--ink3);letter-spacing:.3px">${h(c.gstin||'—')}</span></td>
+      <td style="font-size:11px;color:var(--ink3)">${h(c.state||'—')}</td>
+      <td style="font-size:11px">${h(c.freq||'—')}</td>
+      <td style="text-align:center"><span class="p${c.priority||''}">${h(c.priority||'—')}</span></td>
+      <td style="font-size:11px;color:var(--ink2)">${h(c.emp||'—')}</td>
+      <td style="font-size:11px;font-weight:700;color:var(--navy2)">${fees}</td>
+      <td>${einv}</td>
+    </tr>`;
+  }).join('');
+}
+
+function exportAllClientsCSV() {
+  const rows = getAllClients();
+  if (!rows.length) { showToast('No clients to export', 'err'); return; }
+  const headers = ['Team','Name','GSTIN','State','Frequency','Priority','Employee','Fees PA','E-Invoice','LUT Filed Date'];
+  const keys    = ['_team','name','gstin','state','freq','priority','emp','fees','einvoice','lut'];
+  const csvLines = [headers.join(',')];
+  rows.forEach(c => {
+    csvLines.push(keys.map(k => {
+      let v = k === '_team' ? (TEAM_CONFIG[c._team]?.name || c._team) : (c[k] || '');
+      v = String(v);
+      if (v.includes(',') || v.includes('"') || v.includes('\n')) v = '"' + v.replace(/"/g,'""') + '"';
+      return v;
+    }).join(','));
+  });
+  const blob = new Blob(['\uFEFF' + csvLines.join('\r\n')], { type: 'text/csv;charset=utf-8;' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'ALL_CLIENTS_' + new Date().toISOString().slice(0,10).replace(/-/g,'') + '.csv';
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+  showToast('Exported ' + rows.length + ' clients ✓', 'ok');
 }
 
 </script>
