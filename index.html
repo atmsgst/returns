@@ -199,11 +199,41 @@ body{display:flex;overflow:hidden}
   border-bottom:1px solid var(--border);
   display:flex;align-items:center;padding:0 24px;gap:10px;
   flex-shrink:0;box-shadow:var(--s1);
+  position:relative;
 }
 .topbar-title{
-  font-size:17px;font-weight:700;color:var(--ink);flex:1;letter-spacing:-.3px;
+  font-size:17px;font-weight:700;color:var(--ink);flex:0 0 auto;letter-spacing:-.3px;
+  white-space:nowrap;
 }
 .topbar-title span{color:var(--accent)}
+.task-reminder-board{
+  display:flex;flex-direction:column;gap:4px;
+  background:#fef2f2;border:1px solid #fecaca;border-radius:10px;
+  padding:8px 16px;max-width:none;
+  box-shadow:0 1px 3px rgba(220,38,38,.15);
+  position:relative;
+  animation:rbBlink 2s ease-in-out infinite, rbMove 3s ease-in-out infinite;
+}
+.task-reminder-board .reminder-item{
+  font-size:12px;font-weight:700;line-height:1.4;
+  white-space:nowrap;
+  animation:rbBlinkText 2s ease-in-out infinite;
+}
+@keyframes rbBlink{
+  0%,45%{background:#fef2f2;border-color:#fecaca;box-shadow:0 1px 3px rgba(220,38,38,.25);}
+  50%,95%{background:#f0fdf4;border-color:#bbf7d0;box-shadow:0 1px 3px rgba(22,163,74,.25);}
+  100%{background:#fef2f2;border-color:#fecaca;box-shadow:0 1px 3px rgba(220,38,38,.25);}
+}
+@keyframes rbBlinkText{
+  0%,45%{color:#dc2626;}
+  50%,95%{color:#16a34a;}
+  100%{color:#dc2626;}
+}
+@keyframes rbMove{
+  0%{transform:translateX(-8px);}
+  50%{transform:translateX(8px);}
+  100%{transform:translateX(-8px);}
+}
 .tb-btn{
   display:flex;align-items:center;gap:5px;padding:7px 14px;
   border-radius:7px;font-family:inherit;font-size:12px;font-weight:600;
@@ -1020,6 +1050,9 @@ tbody tr{animation:faderow .18s ease both}
   <!-- TOPBAR -->
   <div class="topbar">
     <div class="topbar-title" id="page-title">GST <span>Returns</span></div>
+    <div style="flex:1"></div>
+    <div class="task-reminder-board" id="task-reminder-board" style="display:none"></div>
+    <div style="flex:1"></div>
     <span class="team-tag team-tag-k" id="topbar-team-tag">Kalpesh</span>
     <div style="display:flex;align-items:center;gap:8px;margin-left:auto" id="gst-actions">
       <div class="gstr-toggle">
@@ -2932,6 +2965,62 @@ function dismissLogin() {
 }
 
 // applyTeamUI — updates sidebar/topbar for the active team (main app UI only)
+// ── TASK REMINDER BOARD (Kalpesh team only) ──────────────
+const REMINDER_ITEMS = [
+  {day:1,  text:'SEND EMAIL / CALL / WHATSAPP TO CLIENT FOR GSTR-1 DATA', shift:true},
+  {day:5,  text:'SEND SECOND REMINDER EMAIL / CALL / WHATSAPP TO CLIENT FOR GSTR-1 DATA', shift:true},
+  {day:8,  text:'SEND FINAL REMINDER EMAIL / CALL / WHATSAPP TO CLIENT FOR GSTR-1 DATA', shift:true},
+  {day:11, text:'GSTR-1 DUE DATE', shift:false},
+  {day:13, text:'QRMP (GSTR-1 / IFF) DUE DATE', shift:false},
+  {day:14, text:'SEND GSTR-2B REPORT', shift:false},
+  {day:15, text:'SEND EMAIL / CALL / WHATSAPP TO CLIENT FOR GSTR-3B DATA', shift:true},
+  {day:17, text:'SEND SECOND REMINDER EMAIL / CALL / WHATSAPP TO CLIENT FOR GSTR-3B DATA', shift:true},
+  {day:18, text:'SEND FINAL REMINDER EMAIL / CALL / WHATSAPP TO CLIENT FOR GSTR-3B DATA', shift:true},
+  {day:20, text:'GSTR-3B DUE DATE', shift:false},
+  {day:29, text:'PREPARE HITECH UNIT-WISE SUMMARY', shift:true},
+  {day:1,  text:'CHECK NEW NOTICES', shift:true},
+  {day:7,  text:'CHECK NEW NOTICES', shift:true},
+  {day:14, text:'CHECK NEW NOTICES', shift:true},
+  {day:21, text:'CHECK NEW NOTICES', shift:true},
+  {day:28, text:'CHECK NEW NOTICES', shift:true},
+];
+function rbIsWorkingDay(d){
+  const wd=d.getDay();
+  if(wd===0) return false; // Sunday
+  if(wd===6){
+    const occ=Math.ceil(d.getDate()/7);
+    if(occ===2||occ===4) return false; // 2nd / 4th Saturday
+  }
+  return true;
+}
+function rbNextWorkingDay(d){
+  const nd=new Date(d.getTime());
+  while(!rbIsWorkingDay(nd)) nd.setDate(nd.getDate()+1);
+  return nd;
+}
+function rbTodaysReminders(){
+  const today=new Date();
+  const y=today.getFullYear(), m=today.getMonth();
+  const out=[];
+  REMINDER_ITEMS.forEach(item=>{
+    let d=new Date(y,m,item.day);
+    if(item.shift) d=rbNextWorkingDay(d);
+    if(d.getFullYear()===today.getFullYear() && d.getMonth()===today.getMonth() && d.getDate()===today.getDate()){
+      out.push(item.text);
+    }
+  });
+  return out;
+}
+function updateReminderBoard(){
+  const board=el('task-reminder-board');
+  if(!board) return;
+  if(activeTeam!=='kalpesh'){ board.style.display='none'; board.innerHTML=''; return; }
+  const reminders=rbTodaysReminders();
+  if(!reminders.length){ board.style.display='none'; board.innerHTML=''; return; }
+  board.innerHTML=reminders.map(r=>`<div class="reminder-item">⚠️ ${h(r)}</div>`).join('');
+  board.style.display='flex';
+}
+
 function applyTeamUI(team) {
   const cfg = TEAM_CONFIG[team];
   const li = document.getElementById('sb-logo-icon');
@@ -2947,6 +3036,7 @@ function applyTeamUI(team) {
   // Show/hide admin indicator
   const adminInd = document.getElementById('sb-admin-indicator');
   if (adminInd) adminInd.style.display = sessionStorage.getItem('gst_admin_session')==='1' ? '' : 'none';
+  updateReminderBoard();
 }
 
 // Shims for old function names still referenced elsewhere
