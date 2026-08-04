@@ -889,17 +889,88 @@ tbody tr{animation:faderow .18s ease both}
 /* Footer */
 .login-footer{text-align:center;margin-top:16px;font-size:10px;color:#94a3b8;}
 
+/* ═══════════════════════════════════════════
+   FRIDAY ANIMATED BACKGROUND SKIN
+   (applies only to the real #login-screen — same
+   mobile number + password form, just re-skinned)
+═══════════════════════════════════════════ */
+#login-screen.friday-skin{
+  background:#05050a;overflow:hidden;
+}
+.flogin-blob{
+  position:absolute;border-radius:50%;
+  filter:blur(60px);opacity:.55;mix-blend-mode:screen;
+  will-change:transform;display:none;pointer-events:none;
+}
+#login-screen.friday-skin .flogin-blob{display:block;}
+.flogin-blob-a{
+  width:420px;height:420px;left:-120px;top:-80px;
+  background:radial-gradient(circle,#00e5ff,transparent 70%);
+  animation:floginDrift1 11s ease-in-out infinite;
+}
+.flogin-blob-b{
+  width:380px;height:380px;left:5%;bottom:-140px;
+  background:radial-gradient(circle,#22ff9c,transparent 70%);
+  animation:floginDrift2 13s ease-in-out infinite;
+}
+.flogin-blob-c{
+  width:440px;height:440px;right:-140px;top:-60px;
+  background:radial-gradient(circle,#ff2fb0,transparent 70%);
+  animation:floginDrift2 12s ease-in-out infinite;
+}
+.flogin-blob-d{
+  width:400px;height:400px;right:5%;bottom:-160px;
+  background:radial-gradient(circle,#8a2fff,transparent 70%);
+  animation:floginDrift1 14s ease-in-out infinite;
+}
+@keyframes floginDrift1{
+  0%,100%{transform:translate(0,0) scale(1);}
+  50%{transform:translate(60px,40px) scale(1.15);}
+}
+@keyframes floginDrift2{
+  0%,100%{transform:translate(0,0) scale(1);}
+  50%{transform:translate(-50px,-30px) scale(1.1);}
+}
+/* Glass look for the real login card only when the Friday skin is active */
+#login-screen.friday-skin .login-card{
+  background:rgba(20,22,30,.55);
+  border:1px solid rgba(255,255,255,.12);
+  backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+}
+#login-screen.friday-skin .login-logo-title,
+#login-screen.friday-skin .login-heading h2{color:#fff;}
+#login-screen.friday-skin .login-logo-sub,
+#login-screen.friday-skin .login-heading p{color:rgba(255,255,255,.65);}
+#login-screen.friday-skin .login-lbl{color:rgba(255,255,255,.8);}
+#login-screen.friday-skin .login-inp{
+  background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.18);color:#fff;
+}
+#login-screen.friday-skin .login-inp::placeholder{color:rgba(255,255,255,.45);}
+#login-screen.friday-skin .login-divider-line{background:rgba(255,255,255,.18);}
+#login-screen.friday-skin .login-divider-txt{color:rgba(255,255,255,.55);}
+#login-screen.friday-skin .login-footer{color:rgba(255,255,255,.5);}
+@media(max-width:480px){
+  .flogin-blob{filter:blur(40px);}
+}
 </style>
 </head>
+
 <body>
 
 <!-- ════════════════════ UNIFIED LOGIN ════════════════════ -->
 <div id="login-screen">
+  <!-- Animated background blobs — only visible when .friday-skin is added (on Fridays) -->
+  <div class="flogin-blob flogin-blob-a"></div>
+  <div class="flogin-blob flogin-blob-b"></div>
+  <div class="flogin-blob flogin-blob-c"></div>
+  <div class="flogin-blob flogin-blob-d"></div>
+
   <div class="login-card">
 
     <!-- Logo -->
     <div class="login-logo">
       <div class="login-logo-icon" id="ll-icon">GST</div>
+
       <div class="login-logo-title" id="ll-team">GST Tracker</div>
       <div class="login-logo-sub" id="ll-sub">Admin · All Teams Dashboard</div>
     </div>
@@ -916,7 +987,7 @@ tbody tr{animation:faderow .18s ease both}
         <span class="login-tab-dot ltd-a"></span>Aparna
       </button>
       <button class="login-tab" id="ltab-vibhavri" onclick="loginTab('vibhavri')">
-        <span class="login-tab-dot ltd-v"></span>Vibhavri
+        Vibhavri
       </button>
     </div>
 
@@ -953,7 +1024,7 @@ tbody tr{animation:faderow .18s ease both}
       <div class="login-prog-lbl">Authenticating across all teams…</div>
       <div class="login-prog-row"><span style="font-size:13px">🔵</span><span class="login-prog-name">Kalpesh Team</span><span class="login-prog-st lpst-wait" id="lpst-kalpesh">Waiting</span></div>
       <div class="login-prog-row"><span style="font-size:13px">🟢</span><span class="login-prog-name">Aparna Team</span><span class="login-prog-st lpst-wait" id="lpst-aparna">Waiting</span></div>
-      <div class="login-prog-row"><span style="font-size:13px">🩷</span><span class="login-prog-name">Vibhavri Team</span><span class="login-prog-st lpst-wait" id="lpst-vibhavri">Waiting</span></div>
+      <div class="login-prog-row"><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#f472b6"></span><span class="login-prog-name">Vibhavri Team</span><span class="login-prog-st lpst-wait" id="lpst-vibhavri">Waiting</span></div>
     </div>
 
     <div class="login-footer" id="ll-footer">GST Tracker &nbsp;|&nbsp; Secure Login</div>
@@ -1514,6 +1585,26 @@ tbody tr{animation:faderow .18s ease both}
 <div class="toast" id="toast"><span id="toast-msg"></span></div>
 
 <script>
+// ═══════════════════════════════════════════════════════
+//  FRIDAY ANIMATED BACKGROUND — applies only on Fridays,
+//  to the real login screen (mobile number + password,
+//  fully interactive, unchanged)
+// ═══════════════════════════════════════════════════════
+(function(){
+  function initFridaySkin(){
+    const screen = document.getElementById('login-screen');
+    if(!screen) return;
+    if(new Date().getDay() === 5){ // 5 = Friday
+      screen.classList.add('friday-skin');
+    }
+  }
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', initFridaySkin);
+  } else {
+    initFridaySkin();
+  }
+})();
+
 // ═══════════════════════════════════════════════════════
 //  TEAM CONFIGURATION — PASTE YOUR THREE APPS SCRIPT URLS
 // ═══════════════════════════════════════════════════════
@@ -2531,13 +2622,9 @@ setInterval(() => {
 }, 300000);
 
 // ── ADMIN LOGIN ──────────────────────────────────────────
-// CONFIGURE: Admin credentials (hardcoded in HTML)
-// Add both admins here — each must exist in all 3 team LOGIN_USERS sheets.
-const ADMIN_USERS = [
-  { mobile: '8097763577', password: '2222' }, // Admin 1
-  { mobile: '8879136379', password: '2222' }, // Admin 2
-  { mobile: '9029161850', password: '2222' }, // Admin 3
-];
+// Admin credentials are NOT hardcoded — they are verified live
+// against the LOGIN_USERS sheet in the Kalpesh team's Apps Script
+// (see TEAM_CONFIG.kalpesh.url). See doUnifiedLogin() below.
 
 
 
@@ -2867,19 +2954,34 @@ async function doUnifiedLogin() {
   }
 
   if (loginMode === 'admin') {
-    // ── Admin: check local credentials, then auth all 3 teams ──
-    const isValidAdmin = ADMIN_USERS.some(u => u.mobile === mobile && u.password === pass);
+    // ── Admin: verify credentials against Kalpesh team's LOGIN_USERS sheet,
+    //           then authenticate across all 3 teams ──
+    btn.textContent = 'Verifying…'; btn.disabled = true;
+    let isValidAdmin = false;
+    try {
+      const kUrl = TEAM_CONFIG.kalpesh.url;
+      if (kUrl && !kUrl.includes('YOUR_')) {
+        const vres = await fetch(kUrl+'?action=validateLogin',{method:'POST',body:JSON.stringify({action:'validateLogin',mobile,password:pass})});
+        const vj = await vres.json();
+        isValidAdmin = !!(vj.success && vj.data && vj.data.valid);
+      }
+    } catch(e) { isValidAdmin = false; }
     if (!isValidAdmin) {
       errEl.textContent = 'Invalid admin credentials.';
       errEl.classList.add('show');
+      btn.textContent = 'Sign In to All Teams →'; btn.disabled = false;
       return;
     }
-    btn.textContent = 'Signing in…'; btn.disabled = true;
+    btn.textContent = 'Signing in…';
     if (prog) prog.classList.add('show');
     ['kalpesh','aparna','vibhavri'].forEach(t => setLPSt(t,'wait','Waiting'));
 
-    const teams = ['kalpesh','aparna','vibhavri'];
-    const results = {};
+    // Kalpesh was already verified above — mark it done immediately instead
+    // of checking it again, so only Aparna and Vibhavri need a fresh call.
+    sessionStorage.setItem('gst_auth_kalpesh','1');
+    setLPSt('kalpesh','ok','✓ Done');
+    const results = { kalpesh: true };
+    const teams = ['aparna','vibhavri'];
     await Promise.all(teams.map(async team => {
       const url = TEAM_CONFIG[team].url;
       setLPSt(team,'busy','Checking…');
