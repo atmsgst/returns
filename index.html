@@ -889,69 +889,6 @@ tbody tr{animation:faderow .18s ease both}
 /* Footer */
 .login-footer{text-align:center;margin-top:16px;font-size:10px;color:#94a3b8;}
 
-/* ═══════════════════════════════════════════
-   FRIDAY ANIMATED BACKGROUND SKIN
-   (applies only to the real #login-screen — same
-   mobile number + password form, just re-skinned)
-═══════════════════════════════════════════ */
-#login-screen.friday-skin{
-  background:#05050a;overflow:hidden;
-}
-.flogin-blob{
-  position:absolute;border-radius:50%;
-  filter:blur(60px);opacity:.55;mix-blend-mode:screen;
-  will-change:transform;display:none;pointer-events:none;
-}
-#login-screen.friday-skin .flogin-blob{display:block;}
-.flogin-blob-a{
-  width:420px;height:420px;left:-120px;top:-80px;
-  background:radial-gradient(circle,#00e5ff,transparent 70%);
-  animation:floginDrift1 11s ease-in-out infinite;
-}
-.flogin-blob-b{
-  width:380px;height:380px;left:5%;bottom:-140px;
-  background:radial-gradient(circle,#22ff9c,transparent 70%);
-  animation:floginDrift2 13s ease-in-out infinite;
-}
-.flogin-blob-c{
-  width:440px;height:440px;right:-140px;top:-60px;
-  background:radial-gradient(circle,#ff2fb0,transparent 70%);
-  animation:floginDrift2 12s ease-in-out infinite;
-}
-.flogin-blob-d{
-  width:400px;height:400px;right:5%;bottom:-160px;
-  background:radial-gradient(circle,#8a2fff,transparent 70%);
-  animation:floginDrift1 14s ease-in-out infinite;
-}
-@keyframes floginDrift1{
-  0%,100%{transform:translate(0,0) scale(1);}
-  50%{transform:translate(60px,40px) scale(1.15);}
-}
-@keyframes floginDrift2{
-  0%,100%{transform:translate(0,0) scale(1);}
-  50%{transform:translate(-50px,-30px) scale(1.1);}
-}
-/* Glass look for the real login card only when the Friday skin is active */
-#login-screen.friday-skin .login-card{
-  background:rgba(20,22,30,.55);
-  border:1px solid rgba(255,255,255,.12);
-  backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
-}
-#login-screen.friday-skin .login-logo-title,
-#login-screen.friday-skin .login-heading h2{color:#fff;}
-#login-screen.friday-skin .login-logo-sub,
-#login-screen.friday-skin .login-heading p{color:rgba(255,255,255,.65);}
-#login-screen.friday-skin .login-lbl{color:rgba(255,255,255,.8);}
-#login-screen.friday-skin .login-inp{
-  background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.18);color:#fff;
-}
-#login-screen.friday-skin .login-inp::placeholder{color:rgba(255,255,255,.45);}
-#login-screen.friday-skin .login-divider-line{background:rgba(255,255,255,.18);}
-#login-screen.friday-skin .login-divider-txt{color:rgba(255,255,255,.55);}
-#login-screen.friday-skin .login-footer{color:rgba(255,255,255,.5);}
-@media(max-width:480px){
-  .flogin-blob{filter:blur(40px);}
-}
 </style>
 </head>
 
@@ -959,12 +896,6 @@ tbody tr{animation:faderow .18s ease both}
 
 <!-- ════════════════════ UNIFIED LOGIN ════════════════════ -->
 <div id="login-screen">
-  <!-- Animated background blobs — only visible when .friday-skin is added (on Fridays) -->
-  <div class="flogin-blob flogin-blob-a"></div>
-  <div class="flogin-blob flogin-blob-b"></div>
-  <div class="flogin-blob flogin-blob-c"></div>
-  <div class="flogin-blob flogin-blob-d"></div>
-
   <div class="login-card">
 
     <!-- Logo -->
@@ -1586,26 +1517,6 @@ tbody tr{animation:faderow .18s ease both}
 
 <script>
 // ═══════════════════════════════════════════════════════
-//  FRIDAY ANIMATED BACKGROUND — applies only on Fridays,
-//  to the real login screen (mobile number + password,
-//  fully interactive, unchanged)
-// ═══════════════════════════════════════════════════════
-(function(){
-  function initFridaySkin(){
-    const screen = document.getElementById('login-screen');
-    if(!screen) return;
-    if(new Date().getDay() === 5){ // 5 = Friday
-      screen.classList.add('friday-skin');
-    }
-  }
-  if(document.readyState === 'loading'){
-    document.addEventListener('DOMContentLoaded', initFridaySkin);
-  } else {
-    initFridaySkin();
-  }
-})();
-
-// ═══════════════════════════════════════════════════════
 //  TEAM CONFIGURATION — PASTE YOUR THREE APPS SCRIPT URLS
 // ═══════════════════════════════════════════════════════
 const TEAM_CONFIG = {
@@ -1804,7 +1715,7 @@ function setRV(v){
   el('btn-g1').className='gtr-btn'+(v==='g1'?' ag1':'');
   el('btn-g3').className='gtr-btn'+(v==='g3'?' ag3':'');
   el('dash-title').textContent=v==='g1'?'GSTR-1 Status Overview':'GSTR-3B Status Overview';
-  renderDashboard();renderTable();
+  renderTableHeaders();renderDashboard();renderTable();
 }
 function setDV(v){
   dv=v;
@@ -1916,9 +1827,13 @@ function renderTableHeaders(){
     <th onclick="sortBy('priority')">Cat</th>
     <th onclick="sortBy('emp')">Employee</th>
     ${isMaster?`<th>E-Invoice</th><th>Owner</th><th onclick="sortBy('fees')">Fees P.A.</th><th>Actions</th>`:`
+    ${rv==='g3'?`
+    <th onclick="sortBy('g3st')">GSTR-3B</th>
+    <th onclick="sortBy('g1st')">GSTR-1</th>
+    <th onclick="sortBy('g2bst')">GSTR-2B</th>`:`
     <th onclick="sortBy('g1st')">GSTR-1</th>
     <th onclick="sortBy('g2bst')">GSTR-2B</th>
-    <th onclick="sortBy('g3st')">GSTR-3B</th>
+    <th onclick="sortBy('g3st')">GSTR-3B</th>`}
     <th>G1 Remarks</th><th>G3B Remarks</th>
     <th>G1 Employee</th><th>G3B Employee</th>
     <th>Actions</th>`}`;
@@ -1967,10 +1882,16 @@ function renderTable(){
       </div>`;
       tr.appendChild(tdA);
     } else {
-      // Inline status dropdowns for G1, G2B, G3B
-      tr.appendChild(mkStatusDDCell(c,'g1st',G1S,g1cls,g1dot));
-      tr.appendChild(mkStatusDDCell(c,'g2bst',G2BS,g2bcls,g2bdot));
-      tr.appendChild(mkStatusDDCell(c,'g3st',G3S,g3cls,g3dot));
+      // Inline status dropdowns for G1, G2B, G3B — order matches active toggle (rv)
+      if(rv==='g3'){
+        tr.appendChild(mkStatusDDCell(c,'g3st',G3S,g3cls,g3dot));
+        tr.appendChild(mkStatusDDCell(c,'g1st',G1S,g1cls,g1dot));
+        tr.appendChild(mkStatusDDCell(c,'g2bst',G2BS,g2bcls,g2bdot));
+      } else {
+        tr.appendChild(mkStatusDDCell(c,'g1st',G1S,g1cls,g1dot));
+        tr.appendChild(mkStatusDDCell(c,'g2bst',G2BS,g2bcls,g2bdot));
+        tr.appendChild(mkStatusDDCell(c,'g3st',G3S,g3cls,g3dot));
+      }
       addTd(`<span style="font-size:11px;color:var(--ink3)">${h(c.g1rem||'—')}</span>`,'max-width:140px;white-space:normal;line-height:1.3');
       addTd(`<span style="font-size:11px;color:var(--ink3)">${h(c.g3rem||'—')}</span>`,'max-width:140px;white-space:normal;line-height:1.3');
       addTd(`<span style="font-size:11px;color:var(--ink3)">${h(c.g1emp||c.emp||'—')}</span>`);
