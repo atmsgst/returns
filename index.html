@@ -1577,6 +1577,65 @@ function getDue(){const p=PERIODS.find(x=>toSN(x.val)===curMonth);if(!p)return '
 const PERIODS=[];
 (()=>{const n=new Date();for(let i=-2;i<10;i++){const d=new Date(n.getFullYear(),n.getMonth()+i,1);const val=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`;PERIODS.push({val,label:d.toLocaleString('en-IN',{month:'long',year:'numeric'}),sheet:toSN(val)});}})();
 
+// ── TASK REMINDER BOARD (Kalpesh team only) ──────────────
+// NOTE: must be declared before init() runs — applyTeamUI() (called
+// synchronously at the top of init()) calls updateReminderBoard(),
+// which needs REMINDER_ITEMS already initialized.
+const REMINDER_ITEMS = [
+  {day:1,  text:'SEND EMAIL / CALL / WHATSAPP TO CLIENT FOR GSTR-1 DATA', shift:true},
+  {day:5,  text:'SEND SECOND REMINDER EMAIL / CALL / WHATSAPP TO CLIENT FOR GSTR-1 DATA', shift:true},
+  {day:8,  text:'SEND FINAL REMINDER EMAIL / CALL / WHATSAPP TO CLIENT FOR GSTR-1 DATA', shift:true},
+  {day:11, text:'GSTR-1 DUE DATE', shift:false},
+  {day:13, text:'QRMP (GSTR-1 / IFF) DUE DATE', shift:false},
+  {day:14, text:'SEND GSTR-2B REPORT', shift:false},
+  {day:15, text:'SEND EMAIL / CALL / WHATSAPP TO CLIENT FOR GSTR-3B DATA', shift:true},
+  {day:17, text:'SEND SECOND REMINDER EMAIL / CALL / WHATSAPP TO CLIENT FOR GSTR-3B DATA', shift:true},
+  {day:18, text:'SEND FINAL REMINDER EMAIL / CALL / WHATSAPP TO CLIENT FOR GSTR-3B DATA', shift:true},
+  {day:20, text:'GSTR-3B DUE DATE', shift:false},
+  {day:21, text:'PREPARE HITECH UNIT-WISE SUMMARY', shift:true},
+  {day:1,  text:'CHECK NEW NOTICES', shift:true},
+  {day:7,  text:'CHECK NEW NOTICES', shift:true},
+  {day:14, text:'CHECK NEW NOTICES', shift:true},
+  {day:21, text:'CHECK NEW NOTICES', shift:true},
+  {day:28, text:'CHECK NEW NOTICES', shift:true},
+];
+function rbIsWorkingDay(d){
+  const wd=d.getDay();
+  if(wd===0) return false; // Sunday
+  if(wd===6){
+    const occ=Math.ceil(d.getDate()/7);
+    if(occ===2||occ===4) return false; // 2nd / 4th Saturday
+  }
+  return true;
+}
+function rbNextWorkingDay(d){
+  const nd=new Date(d.getTime());
+  while(!rbIsWorkingDay(nd)) nd.setDate(nd.getDate()+1);
+  return nd;
+}
+function rbTodaysReminders(){
+  const today=new Date();
+  const y=today.getFullYear(), m=today.getMonth();
+  const out=[];
+  REMINDER_ITEMS.forEach(item=>{
+    let d=new Date(y,m,item.day);
+    if(item.shift) d=rbNextWorkingDay(d);
+    if(d.getFullYear()===today.getFullYear() && d.getMonth()===today.getMonth() && d.getDate()===today.getDate()){
+      out.push(item.text);
+    }
+  });
+  return out;
+}
+function updateReminderBoard(){
+  const board=el('task-reminder-board');
+  if(!board) return;
+  if(activeTeam!=='kalpesh'){ board.style.display='none'; board.innerHTML=''; return; }
+  const reminders=rbTodaysReminders();
+  if(!reminders.length){ board.style.display='none'; board.innerHTML=''; return; }
+  board.innerHTML=reminders.map(r=>`<div class="reminder-item">⚠️ ${h(r)}</div>`).join('');
+  board.style.display='flex';
+}
+
 // ── API ──────────────────────────────────────────────────
 async function sf(action,payload={}){
   if(!scriptUrl||scriptUrl.includes('YOUR_'))throw new Error('No URL configured');
@@ -2988,62 +3047,6 @@ function dismissLogin() {
 }
 
 // applyTeamUI — updates sidebar/topbar for the active team (main app UI only)
-// ── TASK REMINDER BOARD (Kalpesh team only) ──────────────
-const REMINDER_ITEMS = [
-  {day:1,  text:'SEND EMAIL / CALL / WHATSAPP TO CLIENT FOR GSTR-1 DATA', shift:true},
-  {day:5,  text:'SEND SECOND REMINDER EMAIL / CALL / WHATSAPP TO CLIENT FOR GSTR-1 DATA', shift:true},
-  {day:8,  text:'SEND FINAL REMINDER EMAIL / CALL / WHATSAPP TO CLIENT FOR GSTR-1 DATA', shift:true},
-  {day:11, text:'GSTR-1 DUE DATE', shift:false},
-  {day:13, text:'QRMP (GSTR-1 / IFF) DUE DATE', shift:false},
-  {day:14, text:'SEND GSTR-2B REPORT', shift:false},
-  {day:15, text:'SEND EMAIL / CALL / WHATSAPP TO CLIENT FOR GSTR-3B DATA', shift:true},
-  {day:17, text:'SEND SECOND REMINDER EMAIL / CALL / WHATSAPP TO CLIENT FOR GSTR-3B DATA', shift:true},
-  {day:18, text:'SEND FINAL REMINDER EMAIL / CALL / WHATSAPP TO CLIENT FOR GSTR-3B DATA', shift:true},
-  {day:20, text:'GSTR-3B DUE DATE', shift:false},
-  {day:21, text:'PREPARE HITECH UNIT-WISE SUMMARY', shift:true},
-  {day:1,  text:'CHECK NEW NOTICES', shift:true},
-  {day:7,  text:'CHECK NEW NOTICES', shift:true},
-  {day:14, text:'CHECK NEW NOTICES', shift:true},
-  {day:21, text:'CHECK NEW NOTICES', shift:true},
-  {day:28, text:'CHECK NEW NOTICES', shift:true},
-];
-function rbIsWorkingDay(d){
-  const wd=d.getDay();
-  if(wd===0) return false; // Sunday
-  if(wd===6){
-    const occ=Math.ceil(d.getDate()/7);
-    if(occ===2||occ===4) return false; // 2nd / 4th Saturday
-  }
-  return true;
-}
-function rbNextWorkingDay(d){
-  const nd=new Date(d.getTime());
-  while(!rbIsWorkingDay(nd)) nd.setDate(nd.getDate()+1);
-  return nd;
-}
-function rbTodaysReminders(){
-  const today=new Date();
-  const y=today.getFullYear(), m=today.getMonth();
-  const out=[];
-  REMINDER_ITEMS.forEach(item=>{
-    let d=new Date(y,m,item.day);
-    if(item.shift) d=rbNextWorkingDay(d);
-    if(d.getFullYear()===today.getFullYear() && d.getMonth()===today.getMonth() && d.getDate()===today.getDate()){
-      out.push(item.text);
-    }
-  });
-  return out;
-}
-function updateReminderBoard(){
-  const board=el('task-reminder-board');
-  if(!board) return;
-  if(activeTeam!=='kalpesh'){ board.style.display='none'; board.innerHTML=''; return; }
-  const reminders=rbTodaysReminders();
-  if(!reminders.length){ board.style.display='none'; board.innerHTML=''; return; }
-  board.innerHTML=reminders.map(r=>`<div class="reminder-item">⚠️ ${h(r)}</div>`).join('');
-  board.style.display='flex';
-}
-
 function applyTeamUI(team) {
   const cfg = TEAM_CONFIG[team];
   const li = document.getElementById('sb-logo-icon');
