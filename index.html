@@ -999,7 +999,7 @@ tbody tr{animation:faderow .18s ease both}
       <span class="sb-icon">✅</span><span>Other Tasks</span>
       <span class="sb-badge" id="nb-tasks" style="display:none">0</span>
     </div>
-    <div class="sb-item" id="nav-emp" onclick="setView('emp')">
+    <div class="sb-item" id="nav-emp" onclick="setView('emp')" style="display:none">
       <span class="sb-icon">👥</span><span>Employees</span>
       <span class="sb-badge" id="nb-emp" style="display:none">0</span>
     </div>
@@ -1798,7 +1798,14 @@ function renderAll(){
 function renderSidebar(){
   const container=el('sbMonths');
   if(!months.length){container.innerHTML='<div style="font-size:10px;color:rgba(255,255,255,.2);padding:5px 10px;font-style:italic">No months yet</div>';return;}
-  container.innerHTML=months.map(sn=>`<div class="sb-month-item ${curMonth===sn?'active-m':''}" onclick="switchMonth('${sn}')"><div class="sb-month-dot"></div><span>${h(snLabel(sn))}</span></div>`).join('');
+  // Only show current month + previous month in the sidebar list
+  const now=new Date();
+  const curSN=toSN(`${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}`);
+  const pd=new Date(now.getFullYear(),now.getMonth()-1,1);
+  const prevSN=toSN(`${pd.getFullYear()}-${String(pd.getMonth()+1).padStart(2,'0')}`);
+  const visible=months.filter(sn=>sn===prevSN||sn===curSN).sort((a,b)=>(a===prevSN?0:1)-(b===prevSN?0:1));
+  if(!visible.length){container.innerHTML='<div style="font-size:10px;color:rgba(255,255,255,.2);padding:5px 10px;font-style:italic">No months yet</div>';return;}
+  container.innerHTML=visible.map(sn=>`<div class="sb-month-item ${curMonth===sn?'active-m':''}" onclick="switchMonth('${sn}')"><div class="sb-month-dot"></div><span>${h(snLabel(sn))}</span></div>`).join('');
 }
 
 // ── DASHBOARD ────────────────────────────────────────────
